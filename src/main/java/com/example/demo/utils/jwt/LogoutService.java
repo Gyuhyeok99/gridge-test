@@ -32,8 +32,8 @@ public class LogoutService implements LogoutHandler {
       return;
     }
     jwt = authHeader.substring(7);
-    String username = jwtProvider.extractUsername(jwt);
-    log.info("username: {}", username);
+    String userId = jwtProvider.extractUserId(jwt);
+    log.info("userId: {}", userId);
     //redisProvider.deleteValueOps(username);
       SecurityContextHolder.clearContext();
     }

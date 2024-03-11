@@ -23,7 +23,6 @@ public class GoogleUser {
 
     public User toEntity() {
         return User.builder()
-                .email(this.email)
                 .password("NONE")
                 .name(this.name)
                 .isOAuth(true)

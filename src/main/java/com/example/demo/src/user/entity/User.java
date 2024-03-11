@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,17 +23,27 @@ public class User extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
+    @Column(nullable = false, length = 20)
+    private String phoneNumber;
 
     @Column(nullable = false, length = 30)
     private String name;
 
+    @Column(nullable = false, length = 20)
+    private String userId;
+
+    @Column(nullable = false, length = 100)
+    private String password;
+
+    @Column(nullable = false, length = 10)
+    private String birth;
+
     @Column(nullable = false)
     private boolean isOAuth;
+
+    private boolean termsAgreed;
+
+    private LocalDateTime termsAgreedDate;
 
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
@@ -48,7 +59,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return userId;
     }
 
     @Override

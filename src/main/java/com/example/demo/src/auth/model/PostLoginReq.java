@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostLoginReq {
-    private String email;
+    private String userId;
     private String password;
 }

@@ -33,7 +33,7 @@ public class AuthService {
     //POST
     public PostUserRes createUser(PostUserReq postUserReq) {
         //중복 체크
-        userRepository.findByEmailAndState(postUserReq.getEmail(), ACTIVE)
+        userRepository.findByUserIdAndState(postUserReq.getUserId(), ACTIVE)
                 .ifPresent(user -> { throw new BaseException(POST_USERS_EXISTS_EMAIL); });
         postUserReq.setPassword(passwordEncoder.encode(postUserReq.getPassword()));
         User user = AuthConverter.toUser(postUserReq);
@@ -44,16 +44,16 @@ public class AuthService {
     }
 
     public PostLoginRes logIn(PostLoginReq postLoginReq) {
-        User user = userRepository.findByEmailAndState(postLoginReq.getEmail(), ACTIVE)
+        User user = userRepository.findByUserIdAndState(postLoginReq.getUserId(), ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
         try{
             authenticationManager.authenticate
-                    (new UsernamePasswordAuthenticationToken(postLoginReq.getEmail(), postLoginReq.getPassword()));
+                    (new UsernamePasswordAuthenticationToken(postLoginReq.getUserId(), postLoginReq.getPassword()));
         } catch (BadCredentialsException e) {
             throw new BaseException(FAILED_TO_LOGIN);
         }
         authenticationManager.authenticate
-                (new UsernamePasswordAuthenticationToken(postLoginReq.getEmail(), postLoginReq.getPassword()));
+                (new UsernamePasswordAuthenticationToken(postLoginReq.getUserId(), postLoginReq.getPassword()));
 
         String accessToken = jwtProvider.generateToken(user);
         return AuthConverter.toPostLoginRes(user.getId(), accessToken);

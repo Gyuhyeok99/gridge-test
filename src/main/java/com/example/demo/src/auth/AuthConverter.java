@@ -12,10 +12,14 @@ public class AuthConverter {
 
     public static User toUser(PostUserReq postUserReq){
         return User.builder()
-                .email(postUserReq.getEmail())
+                .phoneNumber(postUserReq.getPhoneNumber())
+                .userId(postUserReq.getUserId())
+                .birth(postUserReq.getBirth())
                 .password(postUserReq.getPassword())
                 .name(postUserReq.getName())
                 .isOAuth(postUserReq.isOAuth())
+                .termsAgreed(postUserReq.isTermsAgreed())
+                .termsAgreedDate(postUserReq.getTermsAgreedDate())
                 .role(USER)
                 .build();
     }

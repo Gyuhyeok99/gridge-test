@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostPhoneReq {
+public class PostCheckPhoneReq {
 
     @NotNull
     @PhoneUnique

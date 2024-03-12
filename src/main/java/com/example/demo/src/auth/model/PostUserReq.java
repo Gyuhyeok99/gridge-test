@@ -1,9 +1,6 @@
 package com.example.demo.src.auth.model;
 
-import com.example.demo.common.validation.annotation.MustBeTrue;
-import com.example.demo.common.validation.annotation.PhoneForm;
-import com.example.demo.common.validation.annotation.PhoneUnique;
-import com.example.demo.common.validation.annotation.UsernameForm;
+import com.example.demo.common.validation.annotation.*;
 import com.example.demo.src.user.entity.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -32,6 +29,7 @@ public class PostUserReq {
     @NotNull
     @Size(max = 20)
     @UsernameForm
+    @UsernameUnique
     private String username;
 
     @NotNull

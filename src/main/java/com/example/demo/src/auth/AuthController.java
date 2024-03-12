@@ -1,16 +1,9 @@
 package com.example.demo.src.auth;
 
 import com.example.demo.common.Constant;
-import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.common.validation.annotation.PhoneForm;
-import com.example.demo.common.validation.annotation.PhoneUnique;
 import com.example.demo.src.auth.model.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-
-import static com.example.demo.common.code.status.ErrorStatus.POST_USERS_INVALID_EMAIL;
-import static com.example.demo.common.code.status.ErrorStatus.USERS_EMPTY_EMAIL;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @Slf4j
 @Tag(name = "auth controller", description = "인증 인가 필요 없는 API")
@@ -48,7 +37,14 @@ public class AuthController {
     @ResponseBody
     @PostMapping("/sign-up/checked-phoneNumber")
     @Operation(summary = "회원가입 시 휴대폰 양식 검증 API",description = "휴대폰 번호를 받아 휴대폰 양식에 맞는지, 이미 등록된 휴대폰 번호인지 검증합니다. ")
-    public BaseResponse<Boolean> checkedPhone(@Validated @RequestBody PostPhoneReq postPhoneReq) {
+    public BaseResponse<Boolean> checkedPhone(@Validated @RequestBody PostCheckPhoneReq postCheckPhoneReq) {
+        return BaseResponse.onSuccess(Boolean.TRUE);
+    }
+
+    @ResponseBody
+    @PostMapping("/sign-up/checked-username")
+    @Operation(summary = "회원가입 시 유저아이디 검증 API",description = "유저아이디를 받아 유저 양식에 맞는지, 이미 등록된 유저아이디인지 검증합니다. ")
+    public BaseResponse<Boolean> checkedUsername(@Validated @RequestBody PostCheckUsernameReq postCheckUsernameReq) {
         return BaseResponse.onSuccess(Boolean.TRUE);
     }
 

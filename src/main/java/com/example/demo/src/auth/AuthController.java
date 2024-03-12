@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -46,9 +47,27 @@ public class AuthController {
 
     @ResponseBody
     @PostMapping("/login")
-    @Operation(summary = "로그인 API",description = "유저아이디와 비밀번호를 입력받아 일치하면 토큰을 반환합니. ")
+    @Operation(summary = "로그인 API",description = "유저아이디와 비밀번호를 입력받아 일치하면 토큰을 반환합니다. ")
     public BaseResponse<PostLoginRes> login(@Validated @RequestBody PostLoginReq postLoginReq){
         return BaseResponse.onSuccess(authService.login(postLoginReq));
+    }
+
+    @PostMapping ("/mailSend")
+    @Operation(summary = "휴대폰 인증 번호 발송 API",description = "휴대폰 번호를 받아 인증번호를 발송합니다.")
+    public BaseResponse<String> mailSend(@Validated @RequestBody PostFindPhoneReq postFindPhoneReq){
+        log.info("휴대폰 인증 번호 : {}", postFindPhoneReq.getPhoneNumber());
+        return BaseResponse.onSuccess(authService.joinMail(postFindPhoneReq));
+    }
+    @PostMapping("/mailauthCheck")
+    @Operation(summary = "휴대폰 인증 검증 API",description = "휴대폰 인증 번호를 받아 인증번호가 일치하는지 검증합니다.")
+    public BaseResponse<Boolean> AuthCheck(@RequestBody @Valid PostFindCheckReq postFindCheckReq) {
+        return BaseResponse.onSuccess(authService.checkAuthNum(postFindCheckReq));
+    }
+
+    @PatchMapping("/change-password")
+    @Operation(summary = "비밀번호 변경 API",description = "검증 코드와 새로운 비밀번호를 입력받아 비밀번호를 변경합니다.")
+    public BaseResponse<String> changePassword(@RequestBody @Valid PostChangePasswordReq postChangePasswordReq) {
+        return BaseResponse.onSuccess(authService.changePassword(postChangePasswordReq));
     }
 
     /**

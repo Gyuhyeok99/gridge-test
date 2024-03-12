@@ -28,6 +28,8 @@ public enum ErrorStatus implements BaseErrorCode {
     EXIST_PHONE_NUMBER(HttpStatus.BAD_REQUEST, "USER4005", "이미 존재하는 전화번호입니다."),
     INVALID_PHONE_NUMBER(HttpStatus.BAD_REQUEST, "USER4006", "핸드폰 번호 양식에 맞지 않습니다. 예시: +82-10-0000-0000"),
     INVALID_USERNAME(HttpStatus.BAD_REQUEST, "USER4007", "아이디는 소문자 영어, 숫자, '_', '.'만 포함할 수 있습니다."),
+    PHONE_AUTH_FAIL(HttpStatus.BAD_REQUEST, "USER4008", "핸드폰 인증에 실패했습니다."),
+    PASSWORD_NOT_MATCH_CONFIRM(HttpStatus.BAD_REQUEST, "USER4009", "새비밀번호와 재입력한 새비밀번호가 일치하지 않습니다."),
 
     TEST_EMPTY_COMMENT(HttpStatus.BAD_REQUEST, "COMMENT4000", "코멘트를 입력해주세요."),
 

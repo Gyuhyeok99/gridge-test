@@ -1,0 +1,4 @@
+14:52:02.182 ERROR [File:AuthService.java] [Func:checkAuthNum] [Line:80] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패
+14:52:10.159 ERROR [File:AuthService.java] [Func:checkAuthNum] [Line:80] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패
+15:11:57.397 ERROR [File:AuthService.java] [Func:checkAuthNum] [Line:80] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패
+15:13:05.997 ERROR [File:AuthService.java] [Func:changePassword] [Line:98] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패

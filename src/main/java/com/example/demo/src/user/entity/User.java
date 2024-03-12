@@ -92,4 +92,7 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

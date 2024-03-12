@@ -12,6 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByIdAndState(Long id, State state);
     Optional<User> findByUsernameAndState(String username, State state);
+    Optional<User> findByUsernameAndPhoneNumberAndState(String username, String phoneNumber, State state);
 
     List<User> findAllByState(State state);
     boolean existsByUsername(String username);

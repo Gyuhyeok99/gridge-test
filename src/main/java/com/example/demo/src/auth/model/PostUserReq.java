@@ -9,7 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -33,10 +35,11 @@ public class PostUserReq {
     private String username;
 
     @NotNull
+    @LocalDateForm
     private String birth;
 
     @NotNull
-    @Size(max = 20)
+    @Size(min = 6, max = 20)
     private String password;
 
     private boolean isOAuth;
@@ -53,11 +56,12 @@ public class PostUserReq {
                 .phoneNumber(this.phoneNumber)
                 .name(this.name)
                 .username(this.username)
-                .birth(this.birth)
+                .birth(LocalDate.parse(this.birth, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .password(this.password)
                 .isOAuth(this.isOAuth)
                 .termsAgreed(this.termsAgreed)
                 .termsAgreedDate(this.termsAgreedDate)
                 .build();
     }
+
 }

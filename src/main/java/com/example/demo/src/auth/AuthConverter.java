@@ -8,6 +8,9 @@ import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static com.example.demo.src.user.entity.Role.USER;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -17,7 +20,7 @@ public class AuthConverter {
         return User.builder()
                 .phoneNumber(postUserReq.getPhoneNumber())
                 .username(postUserReq.getUsername())
-                .birth(postUserReq.getBirth())
+                .birth(LocalDate.parse(postUserReq.getBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .password(postUserReq.getPassword())
                 .name(postUserReq.getName())
                 .isOAuth(postUserReq.isOAuth())

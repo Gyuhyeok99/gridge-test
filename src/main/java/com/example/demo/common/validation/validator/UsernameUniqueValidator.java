@@ -1,5 +1,6 @@
 package com.example.demo.common.validation.validator;
 
+import com.example.demo.common.validation.annotation.PhoneUnique;
 import com.example.demo.common.validation.annotation.UsernameUnique;
 import com.example.demo.src.user.UserService;
 import jakarta.validation.ConstraintValidator;

@@ -3,10 +3,15 @@ package com.example.demo.src.auth;
 import com.example.demo.common.Constant;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.src.auth.model.PostLoginReq;
-import com.example.demo.src.auth.model.PostLoginRes;
-import com.example.demo.src.auth.model.PostUserReq;
-import com.example.demo.src.auth.model.PostUserRes;
+import com.example.demo.common.validation.annotation.PhoneForm;
+import com.example.demo.common.validation.annotation.PhoneUnique;
+import com.example.demo.src.auth.model.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +24,7 @@ import static com.example.demo.common.code.status.ErrorStatus.USERS_EMPTY_EMAIL;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @Slf4j
+@Tag(name = "auth controller", description = "인증 인가 필요 없는 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -33,9 +39,17 @@ public class AuthController {
      */
     // Body
     @ResponseBody
-    @PostMapping("sign-up")
+    @PostMapping("/sign-up")
+    @Operation(summary = "회원가입 API",description = "회원 가입 정보를 받아 회원 정보를 생성합니다.")
     public BaseResponse<PostUserRes> createUser(@Validated @RequestBody PostUserReq postUserReq) {
         return BaseResponse.onSuccess(authService.createUser(postUserReq));
+    }
+
+    @ResponseBody
+    @PostMapping("/sign-up/checked-phoneNumber")
+    @Operation(summary = "회원가입 시 휴대폰 양식 검증 API",description = "휴대폰 번호를 받아 휴대폰 양식에 맞는지, 이미 등록된 휴대폰 번호인지 검증합니다. ")
+    public BaseResponse<Boolean> checkedPhone(@Validated @RequestBody PostPhoneReq postPhoneReq) {
+        return BaseResponse.onSuccess(Boolean.TRUE);
     }
 
     /**

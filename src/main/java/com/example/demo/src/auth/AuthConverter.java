@@ -26,7 +26,7 @@ public class AuthConverter {
                 .name(postUserReq.getName())
                 .isOAuth(postUserReq.isOAuth())
                 .termsAgreed(postUserReq.isTermsAgreed())
-                .termsAgreedDate(postUserReq.getTermsAgreedDate())
+                .termsAgreedDate(LocalDate.parse(postUserReq.getTermsAgreedDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .role(USER)
                 .build();
     }

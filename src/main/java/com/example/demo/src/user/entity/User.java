@@ -44,7 +44,7 @@ public class User extends BaseEntity implements UserDetails {
 
     private boolean termsAgreed;
 
-    private LocalDateTime termsAgreedDate;
+    private LocalDate termsAgreedDate;
 
     @Column(length = 10)
     @Enumerated(EnumType.STRING)

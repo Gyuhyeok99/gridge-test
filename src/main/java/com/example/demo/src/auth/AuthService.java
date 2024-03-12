@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -92,19 +91,19 @@ public class AuthService {
         sendSmsToFindEmail(postFindPhoneReq);
         return "인증 번호 문자 전송 완료";
     }
-    public String changePassword(PostChangePasswordReq postChangePasswordReq) {
-        String storedAuthNum = redisProvider.getValueOps(postChangePasswordReq.getPhoneNumber());
-        if (storedAuthNum == null || !storedAuthNum.equals(postChangePasswordReq.getVerificationCode())) {
+    public String changePassword(PatchChangePasswordReq patchChangePasswordReq) {
+        String storedAuthNum = redisProvider.getValueOps(patchChangePasswordReq.getPhoneNumber());
+        if (storedAuthNum == null || !storedAuthNum.equals(patchChangePasswordReq.getVerificationCode())) {
             log.error("휴대폰 인증 실패");
             throw new BaseException(PHONE_AUTH_FAIL);
         }
-        if(!postChangePasswordReq.getPassword().equals(postChangePasswordReq.getPasswordCheck())){
+        if(!patchChangePasswordReq.getPassword().equals(patchChangePasswordReq.getPasswordCheck())){
             throw new BaseException(PASSWORD_NOT_MATCH_CONFIRM);
         }
 
-        User user = userRepository.findByUsernameAndState(postChangePasswordReq.getUsername(), ACTIVE)
+        User user = userRepository.findByUsernameAndState(patchChangePasswordReq.getUsername(), ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        user.setPassword(passwordEncoder.encode(postChangePasswordReq.getPassword()));
+        user.setPassword(passwordEncoder.encode(patchChangePasswordReq.getPassword()));
         log.info("비밀번호 변경 완료 : {}", user.getPassword());
         // 새 비밀번호 저장인데 가독성을 위해 작성함. 작성하지 않아도 무방
         userRepository.save(user);

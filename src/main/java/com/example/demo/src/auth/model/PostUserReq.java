@@ -48,7 +48,8 @@ public class PostUserReq {
     private boolean termsAgreed;
 
     @NotNull
-    private LocalDateTime termsAgreedDate;
+    @LocalDateForm
+    private String termsAgreedDate;
 
 
     public User toEntity() {
@@ -60,7 +61,7 @@ public class PostUserReq {
                 .password(this.password)
                 .isOAuth(this.isOAuth)
                 .termsAgreed(this.termsAgreed)
-                .termsAgreedDate(this.termsAgreedDate)
+                .termsAgreedDate(LocalDate.parse(this.termsAgreedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .build();
     }
 

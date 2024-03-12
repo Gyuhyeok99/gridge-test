@@ -66,8 +66,8 @@ public class AuthController {
 
     @PatchMapping("/change-password")
     @Operation(summary = "비밀번호 변경 API",description = "검증 코드와 새로운 비밀번호를 입력받아 비밀번호를 변경합니다.")
-    public BaseResponse<String> changePassword(@RequestBody @Valid PostChangePasswordReq postChangePasswordReq) {
-        return BaseResponse.onSuccess(authService.changePassword(postChangePasswordReq));
+    public BaseResponse<String> changePassword(@RequestBody @Valid PatchChangePasswordReq patchChangePasswordReq) {
+        return BaseResponse.onSuccess(authService.changePassword(patchChangePasswordReq));
     }
 
     /**

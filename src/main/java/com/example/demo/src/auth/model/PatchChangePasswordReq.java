@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostChangePasswordReq {
+public class PatchChangePasswordReq {
 
     @NotNull
     @Size(max = 20)

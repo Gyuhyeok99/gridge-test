@@ -30,7 +30,7 @@ public class User extends BaseEntity implements UserDetails {
     private String name;
 
     @Column(nullable = false, length = 20)
-    private String userId;
+    private String username;
 
     @Column(nullable = false, length = 100)
     private String password;
@@ -59,7 +59,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userId;
+        return username;
     }
 
     @Override

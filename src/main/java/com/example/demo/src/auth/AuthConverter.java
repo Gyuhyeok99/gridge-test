@@ -5,15 +5,18 @@ import com.example.demo.src.auth.model.PostLoginRes;
 import com.example.demo.src.auth.model.PostUserReq;
 import com.example.demo.src.auth.model.PostUserRes;
 import com.example.demo.src.user.entity.User;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import static com.example.demo.src.user.entity.Role.USER;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthConverter {
 
     public static User toUser(PostUserReq postUserReq){
         return User.builder()
                 .phoneNumber(postUserReq.getPhoneNumber())
-                .userId(postUserReq.getUserId())
+                .username(postUserReq.getUsername())
                 .birth(postUserReq.getBirth())
                 .password(postUserReq.getPassword())
                 .name(postUserReq.getName())

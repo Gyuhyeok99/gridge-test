@@ -11,9 +11,11 @@ import static com.example.demo.common.entity.BaseEntity.State;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByIdAndState(Long id, State state);
-    Optional<User> findByUserIdAndState(String userId, State state);
+    Optional<User> findByUsernameAndState(String username, State state);
 
     List<User> findAllByState(State state);
-    boolean existsByUserId(String userId);
+    boolean existsByUsername(String username);
+
+    boolean existsByPhoneNumber(String phoneNumber);
 
 }

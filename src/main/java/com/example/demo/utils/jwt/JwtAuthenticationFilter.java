@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader(HEADER_AUTHORIZATION);
         final String jwt;
-        final String userId;
+        final String username;
 
         // 헤더에 토큰이 없거나 Bearer 로 시작하지 않으면 통과
         if (authHeader == null ||!authHeader.startsWith(TOKEN_PREFIX)) {
@@ -51,12 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userId = jwtProvider.extractUserId(jwt);
+        username = jwtProvider.extractUsername(jwt);
 
         // 토큰이 유효하고 만료되지 않았다면 SecurityContext에 인증 정보를 저장
         // 토큰이 만료되지 않았는지는 JwtService에서 확인
-        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userId);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtProvider.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

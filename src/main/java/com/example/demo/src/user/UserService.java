@@ -52,7 +52,11 @@ public class UserService {
     }
 
 
-    public boolean existsByUserId(String userId) {
-        return userRepository.existsByUserId(userId);
+    public boolean existsByUserId(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
     }
 }

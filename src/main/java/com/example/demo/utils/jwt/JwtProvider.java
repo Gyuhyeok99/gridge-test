@@ -31,7 +31,7 @@ public class JwtProvider {
   private String issuer;
 
   //JWT 토큰에서 subject를 추출하여 사용자 이름을 반환
-  public String extractUserId(String token) {
+  public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
   }
 
@@ -75,7 +75,7 @@ public class JwtProvider {
 
   //토큰이 유효한지 확인
   public boolean isTokenValid(String token, UserDetails userDetails) {
-    final String username = extractUserId(token);
+    final String username = extractUsername(token);
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
 

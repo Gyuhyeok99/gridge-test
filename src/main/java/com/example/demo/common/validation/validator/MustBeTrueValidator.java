@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+
 @Component
 @RequiredArgsConstructor
 public class MustBeTrueValidator implements ConstraintValidator<MustBeTrue, Boolean> {

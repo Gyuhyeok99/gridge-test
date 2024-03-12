@@ -1,7 +1,9 @@
 package com.example.demo.src.auth.model;
 
 import com.example.demo.common.validation.annotation.MustBeTrue;
-import com.example.demo.common.validation.annotation.PhoneNumber;
+import com.example.demo.common.validation.annotation.PhoneForm;
+import com.example.demo.common.validation.annotation.PhoneUnique;
+import com.example.demo.common.validation.annotation.UsernameForm;
 import com.example.demo.src.user.entity.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +21,8 @@ import java.time.LocalDateTime;
 public class PostUserReq {
     @NotNull
     @Size(max = 20)
-    @PhoneNumber
+    @PhoneForm
+    @PhoneUnique
     private String phoneNumber;
 
     @NotNull
@@ -28,7 +31,8 @@ public class PostUserReq {
 
     @NotNull
     @Size(max = 20)
-    private String userId;
+    @UsernameForm
+    private String username;
 
     @NotNull
     private String birth;
@@ -41,6 +45,7 @@ public class PostUserReq {
 
     @MustBeTrue
     private boolean termsAgreed;
+
     @NotNull
     private LocalDateTime termsAgreedDate;
 
@@ -49,7 +54,7 @@ public class PostUserReq {
         return User.builder()
                 .phoneNumber(this.phoneNumber)
                 .name(this.name)
-                .userId(this.userId)
+                .username(this.username)
                 .birth(this.birth)
                 .password(this.password)
                 .isOAuth(this.isOAuth)

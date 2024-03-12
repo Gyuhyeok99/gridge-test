@@ -2,6 +2,7 @@ package com.example.demo.src.auth;
 
 
 import com.example.demo.src.auth.model.PostLoginRes;
+import com.example.demo.src.auth.model.PostRefreshRes;
 import com.example.demo.src.auth.model.PostUserReq;
 import com.example.demo.src.auth.model.PostUserRes;
 import com.example.demo.src.user.entity.User;
@@ -30,17 +31,25 @@ public class AuthConverter {
                 .build();
     }
 
-    public static PostUserRes toPostUserRes(Long userId, String accessToken){
+    public static PostUserRes toPostUserRes(Long userId, String accessToken, String refreshToken){
         return PostUserRes.builder()
                 .id(userId)
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
 
-    public static PostLoginRes toPostLoginRes(Long userId, String accessToken) {
+    public static PostLoginRes toPostLoginRes(Long userId, String accessToken, String refreshToken){
         return PostLoginRes.builder()
                 .id(userId)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    public static PostRefreshRes toPostRefreshRes(String accessToken){
+        return PostRefreshRes.builder()
                 .accessToken(accessToken)
                 .build();
     }

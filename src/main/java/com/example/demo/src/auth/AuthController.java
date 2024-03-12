@@ -5,6 +5,8 @@ import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.auth.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @Slf4j
-@Tag(name = "auth controller", description = "인증 인가 필요 없는 API")
+@Tag(name = "auth controller", description = "인증 필요 없는 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -21,12 +23,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    /**
-     * 회원가입 API
-     * [POST] /app/users
-     * @return BaseResponse<PostUserRes>
-     */
-    // Body
     @ResponseBody
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입 API",description = "회원 가입 정보를 받아 회원 정보를 생성합니다.")
@@ -48,17 +44,11 @@ public class AuthController {
         return BaseResponse.onSuccess(Boolean.TRUE);
     }
 
-    /**
-     * 로그인 API
-     * [POST] /app/users/logIn
-     * @return BaseResponse<PostLoginRes>
-     */
     @ResponseBody
     @PostMapping("/login")
-    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
-        // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
-        // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
-        return BaseResponse.onSuccess(authService.logIn(postLoginReq));
+    @Operation(summary = "로그인 API",description = "유저아이디와 비밀번호를 입력받아 일치하면 토큰을 반환합니. ")
+    public BaseResponse<PostLoginRes> login(@Validated @RequestBody PostLoginReq postLoginReq){
+        return BaseResponse.onSuccess(authService.login(postLoginReq));
     }
 
     /**
@@ -91,4 +81,10 @@ public class AuthController {
         return BaseResponse.onSuccess(getSocialOAuthRes);
     }*/
 
+
+    @PostMapping("/refresh-token")
+    @Operation(summary = "리프레시토큰 재발급 API",description = "엑세스 토큰 만료 시 리프레시 토큰을 이용해 새로운 엑세스 토큰을 발급합니다.")
+    public BaseResponse<PostRefreshRes> refreshToken(HttpServletRequest request, HttpServletResponse response)  {
+        return BaseResponse.onSuccess(authService.refreshToken(request, response));
+    }
 }

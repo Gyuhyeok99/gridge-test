@@ -7,9 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostLoginRes {
-
-    private Long id;
+public class PostRefreshRes {
     private String accessToken;
-    private String refreshToken;
 }

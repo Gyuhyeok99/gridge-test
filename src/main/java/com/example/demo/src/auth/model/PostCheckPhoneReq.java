@@ -1,7 +1,7 @@
 package com.example.demo.src.auth.model;
 
-import com.example.demo.common.validation.annotation.UsernameForm;
-import com.example.demo.common.validation.annotation.UsernameUnique;
+import com.example.demo.common.validation.annotation.PhoneForm;
+import com.example.demo.common.validation.annotation.PhoneUnique;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -13,14 +13,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostLoginReq {
+public class PostCheckPhoneReq {
 
     @NotNull
+    @PhoneUnique
     @Size(max = 20)
-    @UsernameForm
-    private String username;
-
-    @NotNull
-    @Size(min = 6, max = 20)
-    private String password;
+    @PhoneForm
+    private String phoneNumber;
 }

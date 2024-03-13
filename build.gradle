@@ -46,6 +46,13 @@ dependencies {
 
 	//oauth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//sns
+	implementation 'net.nurigo:sdk:4.3.0'
+
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 }
 
 tasks.named('test') {

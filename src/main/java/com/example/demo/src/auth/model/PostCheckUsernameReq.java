@@ -1,5 +1,6 @@
 package com.example.demo.src.auth.model;
 
+
 import com.example.demo.common.validation.annotation.UsernameForm;
 import com.example.demo.common.validation.annotation.UsernameUnique;
 import jakarta.validation.constraints.NotNull;
@@ -13,14 +14,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostLoginReq {
+public class PostCheckUsernameReq {
 
     @NotNull
     @Size(max = 20)
     @UsernameForm
+    @UsernameUnique
     private String username;
-
-    @NotNull
-    @Size(min = 6, max = 20)
-    private String password;
 }

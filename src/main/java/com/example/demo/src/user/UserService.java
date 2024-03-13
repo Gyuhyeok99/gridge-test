@@ -42,12 +42,6 @@ public class UserService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
-    public List<GetUserRes> getUsersByEmail(String email) {
-        return userRepository.findAllByEmailAndState(email, ACTIVE).stream()
-                .map(GetUserRes::new)
-                .toList();
-    }
 
 
     @Transactional(readOnly = true)
@@ -57,16 +51,12 @@ public class UserService {
         return new GetUserRes(user);
     }
 
-    @Transactional(readOnly = true)
-    public boolean checkUserByEmail(String email) {
-        Optional<User> result = userRepository.findByEmailAndState(email, ACTIVE);
-        if(result.isPresent()) return true;
-        return false;
+
+    public boolean existByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
-
-    public GetUserRes getUserByEmail(String email) {
-        User user = userRepository.findByEmailAndState(email, ACTIVE).orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        return new GetUserRes(user);
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
     }
 }

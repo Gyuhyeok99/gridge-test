@@ -1,23 +1,22 @@
 package com.example.demo.src.auth;
 
 import com.example.demo.common.Constant;
-import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.src.auth.model.PostLoginReq;
-import com.example.demo.src.auth.model.PostLoginRes;
-import com.example.demo.src.auth.model.PostUserReq;
-import com.example.demo.src.auth.model.PostUserRes;
+import com.example.demo.src.auth.model.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-import static com.example.demo.common.code.status.ErrorStatus.POST_USERS_INVALID_EMAIL;
-import static com.example.demo.common.code.status.ErrorStatus.USERS_EMPTY_EMAIL;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
-
 @Slf4j
+@Tag(name = "auth controller", description = "인증 필요 없는 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -25,38 +24,50 @@ public class AuthController {
 
     private final AuthService authService;
 
-    /**
-     * 회원가입 API
-     * [POST] /app/users
-     * @return BaseResponse<PostUserRes>
-     */
-    // Body
     @ResponseBody
-    @PostMapping("signUp")
-    public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
-        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postUserReq.getEmail() == null){
-            throw new BaseException(USERS_EMPTY_EMAIL);
-        }
-        //이메일 정규표현
-        if(!isRegexEmail(postUserReq.getEmail())){
-            throw new BaseException(POST_USERS_INVALID_EMAIL);
-        }
-        PostUserRes postUserRes = authService.createUser(postUserReq);
-        return BaseResponse.onSuccess(postUserRes);
+    @PostMapping("/sign-up")
+    @Operation(summary = "회원가입 API",description = "회원 가입 정보를 받아 회원 정보를 생성합니다.")
+    public BaseResponse<PostUserRes> createUser(@Validated @RequestBody PostUserReq postUserReq) {
+        return BaseResponse.onSuccess(authService.createUser(postUserReq));
     }
 
-    /**
-     * 로그인 API
-     * [POST] /app/users/logIn
-     * @return BaseResponse<PostLoginRes>
-     */
     @ResponseBody
-    @PostMapping("/logIn")
-    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
-        // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
-        // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
-        return BaseResponse.onSuccess(authService.logIn(postLoginReq));
+    @PostMapping("/sign-up/checked-phoneNumber")
+    @Operation(summary = "회원가입 시 휴대폰 양식 검증 API",description = "휴대폰 번호를 받아 휴대폰 양식에 맞는지, 이미 등록된 휴대폰 번호인지 검증합니다. ")
+    public BaseResponse<Boolean> checkedPhone(@Validated @RequestBody PostCheckPhoneReq postCheckPhoneReq) {
+        return BaseResponse.onSuccess(Boolean.TRUE);
+    }
+
+    @ResponseBody
+    @PostMapping("/sign-up/checked-username")
+    @Operation(summary = "회원가입 시 유저아이디 검증 API",description = "유저아이디를 받아 유저 양식에 맞는지, 이미 등록된 유저아이디인지 검증합니다. ")
+    public BaseResponse<Boolean> checkedUsername(@Validated @RequestBody PostCheckUsernameReq postCheckUsernameReq) {
+        return BaseResponse.onSuccess(Boolean.TRUE);
+    }
+
+    @ResponseBody
+    @PostMapping("/login")
+    @Operation(summary = "로그인 API",description = "유저아이디와 비밀번호를 입력받아 일치하면 토큰을 반환합니다. ")
+    public BaseResponse<PostLoginRes> login(@Validated @RequestBody PostLoginReq postLoginReq){
+        return BaseResponse.onSuccess(authService.login(postLoginReq));
+    }
+
+    @PostMapping ("/mailSend")
+    @Operation(summary = "휴대폰 인증 번호 발송 API",description = "휴대폰 번호를 받아 인증번호를 발송합니다.")
+    public BaseResponse<String> mailSend(@Validated @RequestBody PostFindPhoneReq postFindPhoneReq){
+        log.info("휴대폰 인증 번호 : {}", postFindPhoneReq.getPhoneNumber());
+        return BaseResponse.onSuccess(authService.joinMail(postFindPhoneReq));
+    }
+    @PostMapping("/mailauthCheck")
+    @Operation(summary = "휴대폰 인증 검증 API",description = "휴대폰 인증 번호를 받아 인증번호가 일치하는지 검증합니다.")
+    public BaseResponse<Boolean> AuthCheck(@RequestBody @Valid PostFindCheckReq postFindCheckReq) {
+        return BaseResponse.onSuccess(authService.checkAuthNum(postFindCheckReq));
+    }
+
+    @PatchMapping("/change-password")
+    @Operation(summary = "비밀번호 변경 API",description = "검증 코드와 새로운 비밀번호를 입력받아 비밀번호를 변경합니다.")
+    public BaseResponse<String> changePassword(@RequestBody @Valid PatchChangePasswordReq patchChangePasswordReq) {
+        return BaseResponse.onSuccess(authService.changePassword(patchChangePasswordReq));
     }
 
     /**
@@ -89,4 +100,10 @@ public class AuthController {
         return BaseResponse.onSuccess(getSocialOAuthRes);
     }*/
 
+
+    @PostMapping("/refresh-token")
+    @Operation(summary = "리프레시토큰 재발급 API",description = "엑세스 토큰 만료 시 리프레시 토큰을 이용해 새로운 엑세스 토큰을 발급합니다.")
+    public BaseResponse<PostRefreshRes> refreshToken(HttpServletRequest request, HttpServletResponse response)  {
+        return BaseResponse.onSuccess(authService.refreshToken(request, response));
+    }
 }

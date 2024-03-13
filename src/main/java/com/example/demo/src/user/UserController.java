@@ -26,7 +26,7 @@ public class UserController {
      * @return BaseResponse<List<GetUserRes>>
      */
     //Query String
-    @ResponseBody
+   /* @ResponseBody
     @GetMapping("") // (GET) 127.0.0.1:9000/app/users
     public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String Email) {
         if(Email == null){
@@ -36,7 +36,7 @@ public class UserController {
         // Get Users
         List<GetUserRes> getUsersRes = userService.getUsersByEmail(Email);
         return BaseResponse.onSuccess(getUsersRes);
-    }
+    }*/
 
     /**
      * 회원 1명 조회 API

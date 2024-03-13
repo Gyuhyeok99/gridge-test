@@ -1,4 +1,4 @@
-package com.example.demo.src.board.board_image.entity;
+package com.example.demo.src.board.entity;
 
 
 import com.example.demo.common.entity.BaseEntity;

@@ -1,7 +1,6 @@
 package com.example.demo.src.board.entity;
 
 import com.example.demo.common.entity.BaseEntity;
-import com.example.demo.src.board.board_image.entity.BoardImage;
 import com.example.demo.src.comment.entity.Comment;
 import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;

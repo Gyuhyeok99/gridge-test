@@ -53,7 +53,12 @@ public class BoardConverter {
                 .commentsRes(commentsRes)
                 .build();
     }
-
+    public static GetBoardImageRes toGetBoardImageRes(BoardImage boardImage){
+        return GetBoardImageRes.builder()
+                .imageUrl(boardImage.getImageUrl())
+                .imageOrder(boardImage.getImageOrder())
+                .build();
+    }
     public static PostBoardRes toPostBoardRes(Long boardId){
         return PostBoardRes.builder()
                 .id(boardId)

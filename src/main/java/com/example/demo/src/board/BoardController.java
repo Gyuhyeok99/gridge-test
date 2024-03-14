@@ -28,6 +28,11 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    @GetMapping("/{boardId}")
+    public BaseResponse<GetBoardRes> getBoard (@PathVariable("boardId") Long boardId) {
+        return BaseResponse.onSuccess(boardService.getBoard(boardId));
+    }
+
     @GetMapping
     @Operation(summary = "전체 게시글 조회 API", description = "전체 게시글을 페이징하여 조회합니다 page는 0부터 시작합니다. size는 10으로 요청해야합니다.")
     public BaseResponse<Slice<GetBoardRes>> getBoards(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {

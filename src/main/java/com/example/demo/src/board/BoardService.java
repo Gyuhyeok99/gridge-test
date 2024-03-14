@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.demo.common.Constant.CREATE_AT;
 import static com.example.demo.common.code.status.ErrorStatus.NOT_FIND_BOARD;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
@@ -34,8 +35,21 @@ public class BoardService {
     private final BoardLikesRepository boardLikesRepository;
     private final CommentRepository commentRepository;
 
+    public GetBoardRes getBoard(Long boardId) {
+        Board board = boardRepository.findByIdAndState(boardId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
+        Long likesCount = boardLikesRepository.countByBoardId(board.getId());
+        Long commentsCount = commentRepository.countByBoardId(board.getId());
+        List<GetCommentRes> commentsRes = getGetCommentRes(board);
+        List<BoardImage> imageUrls = getBoardImages(board);
+        List<GetBoardImageRes> getBoardImageRes = getGetBoardImageRes(imageUrls);
+        return BoardConverter.toGetBoardRes(board, getBoardImageRes, likesCount, commentsCount, commentsRes);
+    }
+
+
+
     public Slice<GetBoardRes> getBoards(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         Slice<Board> boards = boardRepository.findByStateWithUser(ACTIVE, pageable);
 
         List<GetBoardRes> boardResList = boards.getContent().stream().map(board -> {
@@ -48,12 +62,14 @@ public class BoardService {
                         .map(CommentConverter::toGetCommentRes)
                         .toList();
             }
-            List<BoardImage> imageUrls = boardImageRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream().toList();
-            List<GetBoardImageRes> getBoardImageRes = imageUrls.stream().map(boardImage -> new GetBoardImageRes(boardImage.getImageUrl(), boardImage.getImageOrder())).toList();
+            List<BoardImage> imageUrls = getBoardImages(board);
+            List<GetBoardImageRes> getBoardImageRes = getGetBoardImageRes(imageUrls);
             return BoardConverter.toGetBoardRes(board, getBoardImageRes, likesCount, commentsCount, commentsRes);
         }).toList();
         return new SliceImpl<>(boardResList, pageable, boards.hasNext());
     }
+
+
 
     @Transactional
     public PostBoardRes createdBoard(User user, PostBoardReq postBoardReq) {
@@ -133,5 +149,19 @@ public class BoardService {
                 boardImageRepository.save(boardImage);
             });
         }
+    }
+
+    private List<BoardImage> getBoardImages(Board board) {
+        return boardImageRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream().toList();
+    }
+
+    private List<GetCommentRes> getGetCommentRes(Board board) {
+        return commentRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream()
+                .map(CommentConverter::toGetCommentRes)
+                .toList();
+    }
+
+    private static List<GetBoardImageRes> getGetBoardImageRes(List<BoardImage> imageUrls) {
+        return imageUrls.stream().map(BoardConverter::toGetBoardImageRes).toList();
     }
 }

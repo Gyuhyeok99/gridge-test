@@ -1,7 +1,7 @@
 package com.example.demo.src.comment;
 
 import com.example.demo.src.board.entity.Board;
-import com.example.demo.src.board.model.PostBoardReq;
+import com.example.demo.src.board.model.GetCommentRes;
 import com.example.demo.src.board.model.PostBoardRes;
 import com.example.demo.src.comment.entity.Comment;
 import com.example.demo.src.comment.model.PostCommentReq;
@@ -13,6 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommentConverter {
 
+    public static GetCommentRes toGetCommentRes(Comment comment){
+        return GetCommentRes.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .createdAt(comment.getCreatedAt().toString())
+                .username(comment.getUser().getUsername())
+                .build();
+    }
     public static Comment toComment(User user, Board board, PostCommentReq postCommentReq){
         return Comment.builder()
                 .content(postCommentReq.getContent())

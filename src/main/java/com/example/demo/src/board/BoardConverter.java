@@ -8,6 +8,8 @@ import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BoardConverter {
 
@@ -37,6 +39,18 @@ public class BoardConverter {
                 .imageUrl(patchBoardImageReq.getImageUrl())
                 .imageOrder(patchBoardImageReq.getImageOrder())
                 .board(board)
+                .build();
+    }
+    public static GetBoardRes toGetBoardRes(Board board, List<GetBoardImageRes> getBoardImageRes, Long likesCount, Long commentsCount, List<GetCommentRes> commentsRes){
+        return GetBoardRes.builder()
+                .id(board.getId())
+                .username(board.getUser().getUsername())
+                .content(board.getContent())
+                .boardImageRes(getBoardImageRes)
+                .likesCount(likesCount.intValue())
+                .commentsCount(commentsCount.intValue())
+                .createdAt(board.getCreatedAt().toString())
+                .commentsRes(commentsRes)
                 .build();
     }
 

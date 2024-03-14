@@ -44,6 +44,11 @@ public enum ErrorStatus implements BaseErrorCode {
 
     INVALID_OAUTH_TYPE(HttpStatus.BAD_REQUEST, "OAUTH4000", "알 수 없는 소셜 로그인 형식입니다."),
 
+    //페이지 0이상
+    INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE4000", "페이지는 0 이상이어야 합니다."),
+    //사이즈는 무조건 10
+    INVALID_SIZE(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
+
 
     /**
      * 500 :  Database, Server 오류

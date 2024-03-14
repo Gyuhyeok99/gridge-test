@@ -5,12 +5,14 @@ import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.board.entity.Board;
 import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
+import com.example.demo.src.comment.CommentConverter;
 import com.example.demo.src.comment.CommentRepository;
 import com.example.demo.src.mapping.BoardLikesRepository;
 import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,27 @@ public class BoardService {
     private final BoardImageRepository boardImageRepository;
     private final BoardLikesRepository boardLikesRepository;
     private final CommentRepository commentRepository;
+
+    public Slice<GetBoardRes> getBoards(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Slice<Board> boards = boardRepository.findByStateWithUser(ACTIVE, pageable);
+
+        List<GetBoardRes> boardResList = boards.getContent().stream().map(board -> {
+            Long likesCount = boardLikesRepository.countByBoardId(board.getId());
+            Long commentsCount = commentRepository.countByBoardId(board.getId());
+
+            List<GetCommentRes> commentsRes = null;
+            if (commentsCount <= 2) {
+                commentsRes = commentRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream()
+                        .map(CommentConverter::toGetCommentRes)
+                        .toList();
+            }
+            List<BoardImage> imageUrls = boardImageRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream().toList();
+            List<GetBoardImageRes> getBoardImageRes = imageUrls.stream().map(boardImage -> new GetBoardImageRes(boardImage.getImageUrl(), boardImage.getImageOrder())).toList();
+            return BoardConverter.toGetBoardRes(board, getBoardImageRes, likesCount, commentsCount, commentsRes);
+        }).toList();
+        return new SliceImpl<>(boardResList, pageable, boards.hasNext());
+    }
 
     @Transactional
     public PostBoardRes createdBoard(User user, PostBoardReq postBoardReq) {

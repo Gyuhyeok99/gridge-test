@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = LocalDateFormValidator.class)
 
 public @interface LocalDateForm {
-    String message() default "날짜 형식이 유효하지 않습니다. yyyy-MM-dd 형식이어야 합니다.";
+    String message() default "날짜 형식이 유효하지 않습니다. yyyyMMdd 형식이어야 합니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

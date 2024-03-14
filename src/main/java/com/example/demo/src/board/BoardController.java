@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -63,8 +62,28 @@ public class BoardController {
     }
 
     @PostMapping("/{boardId}/likes")
+    @Operation(summary = "게시글 좋아요 API",description = "게시글 번호를 받아 게시글을 좋아요합니다. 이미 좋아요한 경우 취소됩니다.")
     public BaseResponse<PostLikesRes> toggleLike(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal User user) {
         return BaseResponse.onSuccess(( boardService.toggleLike(boardId, user)));
+    }
+
+    @PostMapping("/{boardId}/report")
+    @Operation(summary = "게시글 신고 API",description = "게시글 번호를 받아 게시글을 신고합니다." +
+            "   \n\n \n\n" +
+            "    SPAM(\"스팸\"),\n" +
+            "    NUDE_OR_SEXUAL_ACTIVITY(\"나체 이미지 또는 성적 행위\"),\n" +
+            "    HATE_SPEECH_OR_SYMBOL(\"혐오 발언 또는 상징\"),\n" +
+            "    VIOLENCE_OR_DANGEROUS_ORGANIZATION(\"폭력 또는 위험한 단체\"),\n" +
+            "    ILLEGAL_OR_REGULATED_GOODS(\"불법 또는 규제 상품 판매\"),\n" +
+            "    BULLYING_OR_HARASSMENT(\"따돌림 또는 괴롭힘\"),\n" +
+            "    INTELLECTUAL_PROPERTY_INFRINGEMENT(\"지식 재산권 침해\"),\n" +
+            "    SUICIDE_OR_SELF_INJURY(\"자살 또는 자해\"),\n" +
+            "    EATING_DISORDER(\"섭식 장애\"),\n" +
+            "    FRAUD_OR_LIE(\"사기 또는 거짓\"),\n" +
+            "    MISINFORMATION(\"거짓 정보\"),\n" +
+            "    DISLIKE(\"마음에 들지 않습니다\")\n")
+    public BaseResponse<PostReportRes> reportBoard(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal User user, @Validated @RequestBody PostReportReq postReportReq) {
+        return BaseResponse.onSuccess(boardService.reportBoard(boardId, user, postReportReq));
     }
 
     @PatchMapping("/{boardId}/edit")

@@ -17,6 +17,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Optional<Board> findByIdAndState(Long id, State state);
 
+
     @Query("SELECT b FROM Board b JOIN FETCH b.user WHERE b.state = :state and b.user.state = :state")
     Slice<Board> findByStateWithUser(@Param("state") State state, Pageable pageable);
 }

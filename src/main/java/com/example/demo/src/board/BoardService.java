@@ -9,7 +9,9 @@ import com.example.demo.src.comment.CommentConverter;
 import com.example.demo.src.comment.CommentRepository;
 import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.mapping.BoardLikesRepository;
+import com.example.demo.src.mapping.BoardReportRepository;
 import com.example.demo.src.mapping.entity.BoardLikes;
+import com.example.demo.src.mapping.entity.BoardReport;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.demo.common.Constant.CREATE_AT;
-import static com.example.demo.common.code.status.ErrorStatus.NOT_FIND_BOARD;
+import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
 
@@ -35,6 +37,7 @@ public class BoardService {
     private final BoardImageRepository boardImageRepository;
     private final BoardLikesRepository boardLikesRepository;
     private final CommentRepository commentRepository;
+    private final BoardReportRepository boardReportRepository;
 
     public GetBoardRes getBoard(Long boardId) {
         Board board = boardRepository.findByIdAndState(boardId, ACTIVE)
@@ -103,7 +106,7 @@ public class BoardService {
             }
         }
 
-        // 기존에는 있지만 PatchBoardImageReq에 없는 이미지 삭제
+        // 기존에는 있지만 PatchBoardImageReq 에 없는 이미지 삭제
         List<String> newImageUrls = newImages.stream().map(PatchBoardImageReq::getImageUrl).toList();
         existingImages.forEach(existingImage -> {
             if (!newImageUrls.contains(existingImage.getImageUrl())) {
@@ -143,6 +146,22 @@ public class BoardService {
         return BoardConverter.toPostLikesRes(board.getId(), boardLikesRepository.countByBoardId(board.getId()));
     }
 
+    @Transactional
+    public PostReportRes reportBoard(Long boardId, User user, PostReportReq postReportReq) {
+        Board board = boardRepository.findByIdAndState(boardId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
+        if(board.getUser().getId().equals(user.getId())) {
+            throw new BaseException(NOT_REPORT_MY_BOARD);
+        }
+        boardReportRepository.findByBoardAndUserAndState(board, user, ACTIVE)
+                .ifPresent(report -> { throw new BaseException(POST_REPORT_EXISTS);});
+        BoardReport boardReport = BoardConverter.toBoardReport(postReportReq, board, user);
+        log.info("boardReportReq : {}", postReportReq.getReportContent());
+        BoardReport save = boardReportRepository.save(boardReport);
+        log.info("save : {}", save.getReportContent());
+        return BoardConverter.toPostReportRes(boardReport.getId());
+    }
+
     private void createdBoardImage(PostBoardReq postBoardReq, Board board) {
         if (postBoardReq.getBoardImageReqs() != null) {
             postBoardReq.getBoardImageReqs().forEach(imageReq -> {
@@ -165,4 +184,6 @@ public class BoardService {
     private static List<GetBoardImageRes> getGetBoardImageRes(List<BoardImage> imageUrls) {
         return imageUrls.stream().map(BoardConverter::toGetBoardImageRes).toList();
     }
+
+
 }

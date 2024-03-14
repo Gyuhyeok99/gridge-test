@@ -37,6 +37,9 @@ public enum ErrorStatus implements BaseErrorCode {
 
     TEST_EMPTY_COMMENT(HttpStatus.BAD_REQUEST, "COMMENT4000", "코멘트를 입력해주세요."),
 
+    NOT_REPORT_MY_BOARD(HttpStatus.BAD_REQUEST, "REPORT4000", "자신의 게시글은 신고할 수 없습니다."),
+    POST_REPORT_EXISTS(HttpStatus.BAD_REQUEST, "REPORT4001", "이미 신고한 게시글입니다."),
+
     POST_TEST_EXISTS_MEMO(HttpStatus.BAD_REQUEST, "MEMO4000","중복된 메모입니다."),
     INVALID_MEMO(HttpStatus.NOT_FOUND, "MEMO4001", "존재하지 않는 메모입니다."),
 

@@ -5,6 +5,7 @@ import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
 import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.mapping.entity.BoardLikes;
+import com.example.demo.src.mapping.entity.BoardReport;
 import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,14 @@ public class BoardConverter {
         return BoardImage.builder()
                 .imageUrl(patchBoardImageReq.getImageUrl())
                 .imageOrder(patchBoardImageReq.getImageOrder())
+                .board(board)
+                .build();
+    }
+
+    public static BoardReport toBoardReport(PostReportReq postReportReq, Board board, User user) {
+        return BoardReport.builder()
+                .reportContent(postReportReq.getReportContent())
+                .user(user)
                 .board(board)
                 .build();
     }
@@ -78,4 +87,12 @@ public class BoardConverter {
                 .likes(likes)
                 .build();
     }
+
+    public static PostReportRes toPostReportRes(Long id) {
+        return PostReportRes.builder()
+                .id(id)
+                .build();
+    }
+
+
 }

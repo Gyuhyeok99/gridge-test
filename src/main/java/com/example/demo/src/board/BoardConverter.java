@@ -3,6 +3,7 @@ package com.example.demo.src.board;
 import com.example.demo.src.board.entity.Board;
 import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
+import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,13 @@ public class BoardConverter {
                 .build();
     }
 
+    public static BoardLikes toBoardLikes(Board board, User user){
+        return BoardLikes.builder()
+                .board(board)
+                .user(user)
+                .build();
+    }
+
     public static BoardImage toBoardImage(PatchBoardImageReq patchBoardImageReq, Board board){
         return BoardImage.builder()
                 .imageUrl(patchBoardImageReq.getImageUrl())
@@ -41,6 +49,13 @@ public class BoardConverter {
     public static PatchBoardRes toPatchBoardRes(Long boardId) {
         return PatchBoardRes.builder()
                 .id(boardId)
+                .build();
+    }
+
+    public static PostLikesRes toPostLikesRes(Long boardId, Long likes){
+        return PostLikesRes.builder()
+                .boardId(boardId)
+                .likes(likes)
                 .build();
     }
 }

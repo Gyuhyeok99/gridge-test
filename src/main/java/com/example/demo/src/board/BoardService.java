@@ -5,8 +5,9 @@ import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.board.entity.Board;
 import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
+import com.example.demo.src.mapping.BoardLikesRepository;
+import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,9 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final BoardImageRepository boardImageRepository;
+    private final BoardLikesRepository boardLikesRepository;
 
     @Transactional
-    @Operation(summary = "게시글 생성 API",description = "게시글 정보를 받아 게시글을 생성합니다.")
     public PostBoardRes createdBoard(User user, PostBoardReq postBoardReq) {
         Board board = BoardConverter.toBoard(postBoardReq, user);
         boardRepository.save(board);
@@ -38,7 +39,6 @@ public class BoardService {
     }
 
     @Transactional
-    @Operation(summary = "게시글 수정 API",description = "게시글 정보를 받아 게시글을 수정합니다.")
     public PatchBoardRes editedBoard(User user, Long boardId, PatchBoardReq patchBoardReq) {
         Board board = boardRepository.findByIdAndUserAndState(boardId, user, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
@@ -72,7 +72,6 @@ public class BoardService {
     }
 
     @Transactional
-    @Operation(summary = "게시글 삭제 API",description = "게시글을 삭제합니다.")
     public String deletedBoard(User user, Long boardId) {
         Board board = boardRepository.findByIdAndUserAndState(boardId, user, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
@@ -82,6 +81,20 @@ public class BoardService {
         }).forEach(boardImageRepository::save);
         board.setState(INACTIVE);
         return "게시글 삭제 성공";
+    }
+
+    @Transactional
+    public PostLikesRes toggleLike(Long boardId, User user) {
+        Board board = boardRepository.findByIdAndState(boardId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
+        // 좋아요 상태 확인
+        Optional<BoardLikes> like = boardLikesRepository.findByBoardIdAndUser(boardId, user);
+        if (like.isPresent()) {
+            boardLikesRepository.delete(like.get());
+        } else {
+            boardLikesRepository.save(BoardConverter.toBoardLikes(board, user));
+        }
+        return BoardConverter.toPostLikesRes(board.getId(), boardLikesRepository.countByBoardId(board.getId()));
     }
 
     private void createdBoardImage(PostBoardReq postBoardReq, Board board) {

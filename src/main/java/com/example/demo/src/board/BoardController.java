@@ -38,6 +38,11 @@ public class BoardController {
         return BaseResponse.onSuccess(boardService.createdBoard(user, postBoardReq));
     }
 
+    @PostMapping("/{boardId}/likes")
+    public BaseResponse<PostLikesRes> toggleLike(@PathVariable("boardId") Long boardId, @AuthenticationPrincipal User user) {
+        return BaseResponse.onSuccess(( boardService.toggleLike(boardId, user)));
+    }
+
     @PatchMapping("/{boardId}/edit")
     @Operation(summary = "게시글 수정 API",description = "게시글 정보를 받아 게시글을 수정합니다.")
     public BaseResponse<PatchBoardRes> editedBoard(@AuthenticationPrincipal User user, @PathVariable("boardId") Long boardId, @Validated @RequestBody PatchBoardReq patchBoardReq) {

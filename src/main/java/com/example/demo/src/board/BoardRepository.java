@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
     Optional<Board> findByIdAndUserAndState(Long id, User user, State state);
+
+    Optional<Board> findByIdAndState(Long id, State state);
 }

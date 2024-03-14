@@ -26,7 +26,7 @@ public class LocalDateFormValidator implements ConstraintValidator<LocalDateForm
         }
 
         try {
-            LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyyMMdd"));
             return true;
         } catch (DateTimeParseException e) {
             return false;

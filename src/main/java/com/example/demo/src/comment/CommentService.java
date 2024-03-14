@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.demo.common.code.status.ErrorStatus.NOT_FIND_COMMENT;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
+import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +40,13 @@ public class CommentService {
                 .orElseThrow(() -> new BaseException(NOT_FIND_COMMENT));
         comment.editComment(patchCommentReq.getContent());
         return CommentConverter.toPatchCommentRes(comment);
+    }
+
+    @Transactional
+    public String deleteComment(User user, Long commentId) {
+        Comment comment = commentRepository.findByIdAndUserAndState(commentId, user, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_COMMENT));
+        comment.setState(INACTIVE);
+        return "댓글 삭제 성공";
     }
 }

@@ -35,5 +35,11 @@ public class CommentController {
         return BaseResponse.onSuccess(commentService.editComment(user, commentId, patchCommentReq));
     }
 
+    @PatchMapping("/{commentId}/delete")
+    @Operation(summary = "댓글 삭제 API",description = "댓글 번호를 받아 댓글을 삭제합니다.")
+    public BaseResponse<String> deleteComment(@AuthenticationPrincipal User user, @PathVariable("commentId") Long commentId) {
+        return BaseResponse.onSuccess(commentService.deleteComment(user, commentId));
+    }
+
 
 }

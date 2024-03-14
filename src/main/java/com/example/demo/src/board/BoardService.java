@@ -68,6 +68,17 @@ public class BoardService {
         return BoardConverter.toPatchBoardRes(board.getId());
     }
 
+    @Transactional
+    public String deletedBoard(User user, Long boardId) {
+        Board board = boardRepository.findByIdAndUserAndState(boardId, user, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
+        boardImageRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream().map(boardImage -> {
+            boardImage.setState(INACTIVE);
+            return boardImage;
+        }).forEach(boardImageRepository::save);
+        board.setState(INACTIVE);
+        return "게시글 삭제 성공";
+    }
 
     private void createdBoardImage(PostBoardReq postBoardReq, Board board) {
         if (postBoardReq.getBoardImageReqs() != null) {
@@ -77,4 +88,7 @@ public class BoardService {
             });
         }
     }
+
+
+
 }

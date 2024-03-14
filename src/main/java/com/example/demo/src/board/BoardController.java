@@ -29,9 +29,14 @@ public class BoardController {
         return BaseResponse.onSuccess(boardService.createdBoard(user, postBoardReq));
     }
 
-    @PatchMapping("/{boardId}")
+    @PatchMapping("/{boardId}/edit")
     public BaseResponse<PatchBoardRes> editedBoard(@AuthenticationPrincipal User user, @PathVariable("boardId") Long boardId, @Validated @RequestBody PatchBoardReq patchBoardReq) {
         return BaseResponse.onSuccess(boardService.editedBoard(user, boardId, patchBoardReq));
+    }
+
+    @PatchMapping("/{boardId}/delete")
+    public BaseResponse<String> deletedBoard(@AuthenticationPrincipal User user, @PathVariable("boardId") Long boardId) {
+        return BaseResponse.onSuccess(boardService.deletedBoard(user, boardId));
     }
 
 }

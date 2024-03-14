@@ -2,9 +2,7 @@ package com.example.demo.src.board;
 
 import com.example.demo.src.board.entity.Board;
 import com.example.demo.src.board.entity.BoardImage;
-import com.example.demo.src.board.model.PostBoardImageReq;
-import com.example.demo.src.board.model.PostBoardReq;
-import com.example.demo.src.board.model.PostBoardRes;
+import com.example.demo.src.board.model.*;
 import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -26,10 +24,23 @@ public class BoardConverter {
                 .build();
     }
 
+    public static BoardImage toBoardImage(PatchBoardImageReq patchBoardImageReq, Board board){
+        return BoardImage.builder()
+                .imageUrl(patchBoardImageReq.getImageUrl())
+                .imageOrder(patchBoardImageReq.getImageOrder())
+                .board(board)
+                .build();
+    }
+
     public static PostBoardRes toPostBoardRes(Long boardId){
         return PostBoardRes.builder()
                 .id(boardId)
                 .build();
     }
 
+    public static PatchBoardRes toPatchBoardRes(Long boardId) {
+        return PatchBoardRes.builder()
+                .id(boardId)
+                .build();
+    }
 }

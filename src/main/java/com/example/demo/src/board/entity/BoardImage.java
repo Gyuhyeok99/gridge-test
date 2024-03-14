@@ -36,4 +36,11 @@ public class BoardImage extends BaseEntity {
         board.getBoardImageList().add(this);
     }
 
+    public void setImageOrder(Integer imageOrder) {
+        this.imageOrder = imageOrder;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 }

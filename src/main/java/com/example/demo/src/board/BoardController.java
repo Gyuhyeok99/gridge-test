@@ -2,6 +2,8 @@ package com.example.demo.src.board;
 
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.src.board.model.PatchBoardReq;
+import com.example.demo.src.board.model.PatchBoardRes;
 import com.example.demo.src.board.model.PostBoardReq;
 import com.example.demo.src.board.model.PostBoardRes;
 import com.example.demo.src.user.entity.User;
@@ -10,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -29,4 +28,10 @@ public class BoardController {
     public BaseResponse<PostBoardRes> createBoard(@AuthenticationPrincipal User user, @Validated @RequestBody PostBoardReq postBoardReq) {
         return BaseResponse.onSuccess(boardService.createdBoard(user, postBoardReq));
     }
+
+    @PatchMapping("/{boardId}")
+    public BaseResponse<PatchBoardRes> editedBoard(@AuthenticationPrincipal User user, @PathVariable("boardId") Long boardId, @Validated @RequestBody PatchBoardReq patchBoardReq) {
+        return BaseResponse.onSuccess(boardService.editedBoard(user, boardId, patchBoardReq));
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.demo.src.board.board_image.entity;
+package com.example.demo.src.board.entity;
 
 
 import com.example.demo.common.entity.BaseEntity;
@@ -24,6 +24,9 @@ public class BoardImage extends BaseEntity {
     @Column(nullable = false, length = 255)
     private String imageUrl;
 
+    @Column(nullable = false)
+    private Integer imageOrder;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
@@ -33,4 +36,11 @@ public class BoardImage extends BaseEntity {
         board.getBoardImageList().add(this);
     }
 
+    public void setImageOrder(Integer imageOrder) {
+        this.imageOrder = imageOrder;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 }

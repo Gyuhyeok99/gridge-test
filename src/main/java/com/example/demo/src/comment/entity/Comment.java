@@ -43,4 +43,11 @@ public class Comment extends BaseEntity {
         board.getCommentList().add(this);
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public void editComment(String content) {
+        this.content = content;
+    }
 }

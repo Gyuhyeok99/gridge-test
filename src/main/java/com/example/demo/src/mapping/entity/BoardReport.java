@@ -22,7 +22,9 @@ public class BoardReport extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
     private ReportContent reportContent;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

@@ -1,7 +1,6 @@
 package com.example.demo.src.board.entity;
 
 import com.example.demo.common.entity.BaseEntity;
-import com.example.demo.src.board.board_image.entity.BoardImage;
 import com.example.demo.src.comment.entity.Comment;
 import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;
@@ -25,7 +24,7 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 2200)
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,5 +48,11 @@ public class Board extends BaseEntity {
     }
 
 
+    public void setContent(String content) {
+        this.content = content;
+    }
 
+    public void setState(State state) {
+        this.state = state;
+    }
 }

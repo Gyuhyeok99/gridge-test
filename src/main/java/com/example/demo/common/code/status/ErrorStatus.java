@@ -31,7 +31,14 @@ public enum ErrorStatus implements BaseErrorCode {
     PHONE_AUTH_FAIL(HttpStatus.BAD_REQUEST, "USER4008", "핸드폰 인증에 실패했습니다."),
     PASSWORD_NOT_MATCH_CONFIRM(HttpStatus.BAD_REQUEST, "USER4009", "새비밀번호와 재입력한 새비밀번호가 일치하지 않습니다."),
 
+    NOT_FIND_BOARD(HttpStatus.NOT_FOUND, "BOARD4000", "존재하지 않는 게시글입니다."),
+
+    NOT_FIND_COMMENT(HttpStatus.NOT_FOUND, "COMMENT4000", "존재하지 않는 코멘트입니다."),
+
     TEST_EMPTY_COMMENT(HttpStatus.BAD_REQUEST, "COMMENT4000", "코멘트를 입력해주세요."),
+
+    NOT_REPORT_MY_BOARD(HttpStatus.BAD_REQUEST, "REPORT4000", "자신의 게시글은 신고할 수 없습니다."),
+    POST_REPORT_EXISTS(HttpStatus.BAD_REQUEST, "REPORT4001", "이미 신고한 게시글입니다."),
 
     POST_TEST_EXISTS_MEMO(HttpStatus.BAD_REQUEST, "MEMO4000","중복된 메모입니다."),
     INVALID_MEMO(HttpStatus.NOT_FOUND, "MEMO4001", "존재하지 않는 메모입니다."),
@@ -41,6 +48,11 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_USER_JWT(HttpStatus.FORBIDDEN, "JWT4002", "권한이 없는 유저의 접근입니다."),
 
     INVALID_OAUTH_TYPE(HttpStatus.BAD_REQUEST, "OAUTH4000", "알 수 없는 소셜 로그인 형식입니다."),
+
+    //페이지 0이상
+    INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE4000", "페이지는 0 이상이어야 합니다."),
+    //사이즈는 무조건 10
+    INVALID_SIZE(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
 
 
     /**

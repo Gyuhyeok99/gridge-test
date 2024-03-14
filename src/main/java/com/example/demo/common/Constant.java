@@ -6,5 +6,7 @@ public class Constant {
         KAKAO,
         NAVER
     }
+
+    public static final String CREATE_AT = "createdAt";
 }
 

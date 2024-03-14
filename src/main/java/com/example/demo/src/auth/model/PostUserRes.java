@@ -12,7 +12,4 @@ public class PostUserRes {
     private String accessToken;
     private String refreshToken;
 
-    public PostUserRes(Long id) {
-        this.id = id;
-    }
 }

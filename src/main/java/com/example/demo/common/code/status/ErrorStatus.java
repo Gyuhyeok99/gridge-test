@@ -33,6 +33,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     NOT_FIND_BOARD(HttpStatus.NOT_FOUND, "BOARD4000", "존재하지 않는 게시글입니다."),
 
+    NOT_FIND_COMMENT(HttpStatus.NOT_FOUND, "COMMENT4000", "존재하지 않는 코멘트입니다."),
+
     TEST_EMPTY_COMMENT(HttpStatus.BAD_REQUEST, "COMMENT4000", "코멘트를 입력해주세요."),
 
     POST_TEST_EXISTS_MEMO(HttpStatus.BAD_REQUEST, "MEMO4000","중복된 메모입니다."),

@@ -2,6 +2,8 @@ package com.example.demo.src.comment;
 
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.src.comment.model.PatchCommentReq;
+import com.example.demo.src.comment.model.PatchCommentRes;
 import com.example.demo.src.comment.model.PostCommentReq;
 import com.example.demo.src.comment.model.PostCommentRes;
 import com.example.demo.src.user.entity.User;
@@ -25,6 +27,12 @@ public class CommentController {
     @Operation(summary = "댓글 생성 API",description = "게시글 번호와 댓글 내용을 받아 댓글을 생성합니다.")
     public BaseResponse<PostCommentRes> createComment(@AuthenticationPrincipal User user, @PathVariable("boardId") Long boardId, @Validated @RequestBody PostCommentReq postCommentReq) {
         return BaseResponse.onSuccess(commentService.createdComment(user, boardId, postCommentReq));
+    }
+
+    @PatchMapping("/{commentId}/edit")
+    @Operation(summary = "댓글 수정 API",description = "댓글 번호와 수정할 댓글 내용을 받아 댓글을 수정합니다.")
+    public BaseResponse<PatchCommentRes> editComment(@AuthenticationPrincipal User user, @PathVariable("commentId") Long commentId, @Validated @RequestBody PatchCommentReq patchCommentReq) {
+        return BaseResponse.onSuccess(commentService.editComment(user, commentId, patchCommentReq));
     }
 
 

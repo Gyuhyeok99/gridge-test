@@ -1,17 +1,13 @@
-package com.example.demo.src.board.model;
-
+package com.example.demo.src.comment.model;
 
 import lombok.*;
-
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PatchBoardRes {
+public class PostCommentRes {
 
     private Long id;
-
 }

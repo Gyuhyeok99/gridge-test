@@ -5,6 +5,7 @@ import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.board.entity.Board;
 import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
+import com.example.demo.src.comment.CommentRepository;
 import com.example.demo.src.mapping.BoardLikesRepository;
 import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;
@@ -29,6 +30,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardImageRepository boardImageRepository;
     private final BoardLikesRepository boardLikesRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public PostBoardRes createdBoard(User user, PostBoardReq postBoardReq) {
@@ -79,6 +81,10 @@ public class BoardService {
             boardImage.setState(INACTIVE);
             return boardImage;
         }).forEach(boardImageRepository::save);
+        commentRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream().map(comment -> {
+            comment.setState(INACTIVE);
+            return comment;
+        }).forEach(commentRepository::save);
         board.setState(INACTIVE);
         return "게시글 삭제 성공";
     }

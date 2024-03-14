@@ -52,17 +52,4 @@ public class PostUserReq {
     private String termsAgreedDate;
 
 
-    public User toEntity() {
-        return User.builder()
-                .phoneNumber(this.phoneNumber)
-                .name(this.name)
-                .username(this.username)
-                .birth(LocalDate.parse(this.birth, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .password(this.password)
-                .isOAuth(this.isOAuth)
-                .termsAgreed(this.termsAgreed)
-                .termsAgreedDate(LocalDate.parse(this.termsAgreedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .build();
-    }
-
 }

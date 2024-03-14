@@ -24,6 +24,9 @@ public class BoardImage extends BaseEntity {
     @Column(nullable = false, length = 255)
     private String imageUrl;
 
+    @Column(nullable = false)
+    private Integer imageOrder;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;

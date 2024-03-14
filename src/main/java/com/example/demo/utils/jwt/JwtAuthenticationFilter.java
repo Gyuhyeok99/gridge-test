@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ import static com.example.demo.utils.jwt.JwtProvider.TOKEN_PREFIX;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
@@ -35,11 +37,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         ///api/v1/auth 는 권한 필요 없는 api 이므로 바로 통과
-        if (request.getServletPath().contains("/api/v1/auth") || request.getServletPath().contains("/api/v1/test")) {
+        if (request.getServletPath().contains("/api/v1/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
-
         final String authHeader = request.getHeader(HEADER_AUTHORIZATION);
         final String jwt;
         final String username;
@@ -49,10 +50,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         jwt = authHeader.substring(7);
         username = jwtProvider.extractUsername(jwt);
-
         // 토큰이 유효하고 만료되지 않았다면 SecurityContext에 인증 정보를 저장
         // 토큰이 만료되지 않았는지는 JwtService에서 확인
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

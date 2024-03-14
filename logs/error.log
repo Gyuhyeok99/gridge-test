@@ -1,4 +1,20 @@
-14:52:02.182 ERROR [File:AuthService.java] [Func:checkAuthNum] [Line:80] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패
-14:52:10.159 ERROR [File:AuthService.java] [Func:checkAuthNum] [Line:80] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패
-15:11:57.397 ERROR [File:AuthService.java] [Func:checkAuthNum] [Line:80] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패
-15:13:05.997 ERROR [File:AuthService.java] [Func:changePassword] [Line:98] [Message:휴대폰 인증 실패]- 휴대폰 인증 실패
+09:14:00.885 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:39] [Message:여긴 r]- 여긴 r
+09:14:06.515 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:39] [Message:여긴 r]- 여긴 r
+09:14:51.263 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:39] [Message:여긴 r]- 여긴 r
+09:14:51.264 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:45] [Message:여긴 2]- 여긴 2
+09:14:51.264 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:55] [Message:여긴 3]- 여긴 3
+09:15:51.039 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:39] [Message:여긴 r]- 여긴 r
+09:15:51.040 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:45] [Message:여긴 2]- 여긴 2
+09:15:51.040 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:55] [Message:여긴 3]- 여긴 3
+09:18:11.757 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:53] [Message:여긴 3]- 여긴 3
+09:18:11.767 ERROR [File:JwtProvider.java] [Func:extractUsername] [Line:43] [Message:JWT 토큰이 유효하지 않습니다.]- JWT 토큰이 유효하지 않습니다.
+09:18:24.369 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:53] [Message:여긴 3]- 여긴 3
+09:18:24.371 ERROR [File:JwtProvider.java] [Func:extractUsername] [Line:43] [Message:JWT 토큰이 유효하지 않습니다.]- JWT 토큰이 유효하지 않습니다.
+09:18:35.272 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:53] [Message:여긴 3]- 여긴 3
+09:18:35.298 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:56] [Message:여긴 찍ㅎ니]- 여긴 찍ㅎ니
+09:19:11.462 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:53] [Message:여긴 3]- 여긴 3
+09:19:11.465 ERROR [File:JwtProvider.java] [Func:extractUsername] [Line:43] [Message:JWT 토큰이 유효하지 않습니다.]- JWT 토큰이 유효하지 않습니다.
+09:29:14.977 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:53] [Message:여긴 3]- 여긴 3
+09:29:15.004 ERROR [File:JwtProvider.java] [Func:extractUsername] [Line:43] [Message:JWT 토큰이 유효하지 않습니다.]- JWT 토큰이 유효하지 않습니다.
+09:32:33.542 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:53] [Message:여긴 3]- 여긴 3
+09:32:33.545 ERROR [File:JwtAuthenticationFilter.java] [Func:doFilterInternal] [Line:56] [Message:여긴 찍ㅎ니]- 여긴 찍ㅎ니

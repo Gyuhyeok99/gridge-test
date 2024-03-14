@@ -1,5 +1,6 @@
 package com.example.demo.src.board.model;
 
+import com.example.demo.src.comment.model.GetCommentRes;
 import lombok.*;
 
 import java.util.List;

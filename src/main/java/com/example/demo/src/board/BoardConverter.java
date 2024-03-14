@@ -3,6 +3,7 @@ package com.example.demo.src.board;
 import com.example.demo.src.board.entity.Board;
 import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
+import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;

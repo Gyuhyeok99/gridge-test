@@ -29,6 +29,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/{boardId}")
+    @Operation(summary = "단일 게시글 조회 API", description = "게시글 번호를 받아 게시글을 조회합니다")
     public BaseResponse<GetBoardRes> getBoard (@PathVariable("boardId") Long boardId) {
         return BaseResponse.onSuccess(boardService.getBoard(boardId));
     }

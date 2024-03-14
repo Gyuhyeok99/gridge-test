@@ -1,7 +1,7 @@
 package com.example.demo.src.comment;
 
 import com.example.demo.src.board.entity.Board;
-import com.example.demo.src.board.model.GetCommentRes;
+import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.board.model.PostBoardRes;
 import com.example.demo.src.comment.entity.Comment;
 import com.example.demo.src.comment.model.PatchCommentRes;

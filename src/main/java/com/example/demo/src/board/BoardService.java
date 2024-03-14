@@ -7,6 +7,7 @@ import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
 import com.example.demo.src.comment.CommentConverter;
 import com.example.demo.src.comment.CommentRepository;
+import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.mapping.BoardLikesRepository;
 import com.example.demo.src.mapping.entity.BoardLikes;
 import com.example.demo.src.user.entity.User;

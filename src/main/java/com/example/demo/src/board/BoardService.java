@@ -6,6 +6,7 @@ import com.example.demo.src.board.entity.Board;
 import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.board.model.*;
 import com.example.demo.src.user.entity.User;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class BoardService {
     private final BoardImageRepository boardImageRepository;
 
     @Transactional
+    @Operation(summary = "게시글 생성 API",description = "게시글 정보를 받아 게시글을 생성합니다.")
     public PostBoardRes createdBoard(User user, PostBoardReq postBoardReq) {
         Board board = BoardConverter.toBoard(postBoardReq, user);
         boardRepository.save(board);
@@ -36,6 +38,7 @@ public class BoardService {
     }
 
     @Transactional
+    @Operation(summary = "게시글 수정 API",description = "게시글 정보를 받아 게시글을 수정합니다.")
     public PatchBoardRes editedBoard(User user, Long boardId, PatchBoardReq patchBoardReq) {
         Board board = boardRepository.findByIdAndUserAndState(boardId, user, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
@@ -69,6 +72,7 @@ public class BoardService {
     }
 
     @Transactional
+    @Operation(summary = "게시글 삭제 API",description = "게시글을 삭제합니다.")
     public String deletedBoard(User user, Long boardId) {
         Board board = boardRepository.findByIdAndUserAndState(boardId, user, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_BOARD));
@@ -88,7 +92,4 @@ public class BoardService {
             });
         }
     }
-
-
-
 }

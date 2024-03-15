@@ -1,5 +1,7 @@
 package com.example.demo.src.admin_user;
 
+import com.example.demo.common.entity.BaseEntity;
+import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.model.GetCondUserRes;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 
 import static com.example.demo.common.code.status.ErrorStatus.INVALID_PAGE;
 import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE;
@@ -45,6 +48,13 @@ public class AdminUserController {
     @Operation(summary = "관리자 전용 회원 Entity 조회 API", description = "관리자 전용 회원 Entity 조회 API입니다")
     public BaseResponse<User> getUser(@PathVariable("userId") Long userId) {
         return BaseResponse.onSuccess(adminUserService.getUser(userId));
+    }
+
+    @PatchMapping("/{userId}")
+    @PreAuthorize("hasAnyAuthority('admin:update')")
+    @Operation(summary = "관리자 전용 회원 정지 API", description = "관리자 전용 회원 정지 API입니다")
+    public BaseResponse<String> patchUser(@PathVariable("userId") Long userId, @RequestParam("state") State state) {
+        return BaseResponse.onSuccess(adminUserService.patchUser(userId, state));
     }
 
 }

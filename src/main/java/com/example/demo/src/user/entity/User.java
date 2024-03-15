@@ -120,4 +120,8 @@ public class User extends BaseEntity implements UserDetails {
     public void updateLastLoginAt() {
         this.lastLoginAt = LocalDateTime.now();
     }
+
+    public void updateState(State staste) {
+        this.setState(staste);
+    }
 }

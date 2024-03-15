@@ -1,5 +1,7 @@
 package com.example.demo.src.admin_user;
 
+import com.example.demo.common.entity.BaseEntity;
+import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.model.GetCondUserRes;
 import com.example.demo.src.model.UserSearchCondition;
@@ -33,5 +35,12 @@ public class AdminUserService {
 
     public User getUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new BaseException(NOT_FIND_USER));
+    }
+
+    @Transactional
+    public String patchUser(Long userId, State staste) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        user.updateState(staste);
+        return "state 변경 완료";
     }
 }

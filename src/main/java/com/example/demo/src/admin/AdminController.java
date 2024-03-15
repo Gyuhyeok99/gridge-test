@@ -42,6 +42,21 @@ public class AdminController {
         return BaseResponse.onSuccess(adminService.getAdminUsers(userSearchCond, page, size));
     }
 
+    @GetMapping("users/{userId}")
+    @PreAuthorize("hasAnyAuthority('admin:update')")
+    @Operation(summary = "관리자 전용 단일 회원 조회 API", description = "관리자 전용 단일 회원 조회 API입니다")
+    public BaseResponse<User> getUser(@PathVariable("userId") Long userId) {
+        return BaseResponse.onSuccess(adminService.getUser(userId));
+    }
+
+    @PatchMapping("/users/{userId}")
+    @PreAuthorize("hasAnyAuthority('admin:update')")
+    @Operation(summary = "관리자 전용 회원 정지 API", description = "관리자 전용 회원 정지 API입니다")
+    public BaseResponse<String> patchUser(@PathVariable("userId") Long userId, @RequestParam("state") State state) {
+        return BaseResponse.onSuccess(adminService.patchUser(userId, state));
+    }
+
+
     @GetMapping("/boards")
     @PreAuthorize("hasAuthority('admin:read')")
     @Operation(summary = "관리자 전용 게시글 검색 API", description = "관리자 전용 게시글 검색 API입니다")
@@ -57,6 +72,20 @@ public class AdminController {
         return BaseResponse.onSuccess(adminService.getAdminBoards(boardSearchCond, page, size));
     }
 
+    @GetMapping("/boards/{boardId}")
+    @PreAuthorize("hasAnyAuthority('admin:read')")
+    @Operation(summary = "관리자 전용 게시글 관련 단일 조회 API", description = "관리자 전용 게시글 관련 단일 조회 API입니다")
+    public BaseResponse<GetBoardRes> getBoard(@PathVariable("boardId") Long boardId) {
+        return BaseResponse.onSuccess(adminService.getBoard(boardId));
+    }
+
+    @PatchMapping("/boards/{boardId}")
+    @PreAuthorize("hasAnyAuthority('admin:update')")
+    @Operation(summary = "관리자 전용 게시글 삭제 API", description = "관리자 전용 게시글 삭제 API입니다")
+    public BaseResponse<String> patchBoard(@PathVariable("boardId") Long boardId) {
+        return BaseResponse.onSuccess(adminService.patchBoard(boardId));
+    }
+
     @GetMapping("/reports")
     @PreAuthorize("hasAnyAuthority('admin:read')")
     @Operation(summary = "관리자 전용 신고 전체 조회 API", description = "관리자 전용 신고 전체 조회 API입니다")
@@ -70,34 +99,11 @@ public class AdminController {
         return BaseResponse.onSuccess(adminService.getReports(page, size));
     }
 
-    @GetMapping("users/{userId}")
+    @PatchMapping("/reports/{reportId}")
     @PreAuthorize("hasAnyAuthority('admin:update')")
-    @Operation(summary = "관리자 전용 단일 회원 조회 API", description = "관리자 전용 단일 회원 조회 API입니다")
-    public BaseResponse<User> getUser(@PathVariable("userId") Long userId) {
-        return BaseResponse.onSuccess(adminService.getUser(userId));
-    }
-
-    @GetMapping("/boards/{boardId}")
-    @PreAuthorize("hasAnyAuthority('admin:read')")
-    @Operation(summary = "관리자 전용 게시글 관련 단일 조회 API", description = "관리자 전용 게시글 관련 단일 조회 API입니다")
-    public BaseResponse<GetBoardRes> getBoard(@PathVariable("boardId") Long boardId) {
-        return BaseResponse.onSuccess(adminService.getBoard(boardId));
-    }
-
-
-
-    @PatchMapping("/users/{userId}")
-    @PreAuthorize("hasAnyAuthority('admin:update')")
-    @Operation(summary = "관리자 전용 회원 정지 API", description = "관리자 전용 회원 정지 API입니다")
-    public BaseResponse<String> patchUser(@PathVariable("userId") Long userId, @RequestParam("state") State state) {
-        return BaseResponse.onSuccess(adminService.patchUser(userId, state));
-    }
-
-    @PatchMapping("/boards/{boardId}")
-    @PreAuthorize("hasAnyAuthority('admin:update')")
-    @Operation(summary = "관리자 전용 게시글 삭제 API", description = "관리자 전용 게시글 삭제 API입니다")
-    public BaseResponse<String> patchBoard(@PathVariable("boardId") Long boardId) {
-        return BaseResponse.onSuccess(adminService.patchBoard(boardId));
+    @Operation(summary = "관리자 전용 신고 삭제 API", description = "관리자 전용 신고 삭제 API입니다")
+    public BaseResponse<String> patchReport(@PathVariable("reportId") Long reportId) {
+        return BaseResponse.onSuccess(adminService.patchReport(reportId));
     }
 
 

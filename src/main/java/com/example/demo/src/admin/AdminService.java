@@ -15,6 +15,7 @@ import com.example.demo.src.comment.CommentRepository;
 import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.mapping.BoardLikesRepository;
 import com.example.demo.src.mapping.BoardReportRepository;
+import com.example.demo.src.mapping.entity.BoardReport;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.example.demo.common.Constant.CREATE_AT;
-import static com.example.demo.common.code.status.ErrorStatus.NOT_FIND_BOARD;
-import static com.example.demo.common.code.status.ErrorStatus.NOT_FIND_USER;
+import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
 
@@ -50,17 +50,6 @@ public class AdminService {
         return adminQueryRepository.searchUser(userSearchCond, pageable);
     }
 
-    public Page<GetCondBoardRes> getAdminBoards(BoardSearchCond boardSearchCond, Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
-        return adminQueryRepository.searchBoard(boardSearchCond, pageable);
-    }
-
-    public Page<GetReportRes> getReports(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
-        return boardReportRepository.findByStateWithFetchJoin(ACTIVE, pageable)
-                .map(AdminConverter::toGetReportRes);
-    }
-
     public User getUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new BaseException(NOT_FIND_USER));
     }
@@ -72,7 +61,10 @@ public class AdminService {
         return "state 변경 완료";
     }
 
-
+    public Page<GetCondBoardRes> getAdminBoards(BoardSearchCond boardSearchCond, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
+        return adminQueryRepository.searchBoard(boardSearchCond, pageable);
+    }
 
     public GetBoardRes getBoard(Long boardId) {
         Board board = boardRepository.findByIdAndState(boardId, ACTIVE)
@@ -99,6 +91,20 @@ public class AdminService {
         }).forEach(commentRepository::save);
         board.setState(INACTIVE);
         return "게시글 삭제 완료";
+    }
+
+    public Page<GetReportRes> getReports(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
+        return boardReportRepository.findByStateWithFetchJoin(ACTIVE, pageable)
+                .map(AdminConverter::toGetReportRes);
+    }
+
+    @Transactional
+    public String patchReport(Long reportId) {
+        BoardReport boardReport = boardReportRepository.findById(reportId)
+                .orElseThrow(() -> new BaseException(NOT_FIND_REPORT));
+        boardReport.delete();
+        return "신고 삭제 완료";
     }
 
     private List<BoardImage> getBoardImages(Board board) {

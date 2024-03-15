@@ -7,6 +7,8 @@ import com.example.demo.src.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import static com.example.demo.common.entity.BaseEntity.State.*;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
@@ -34,4 +36,7 @@ public class BoardReport extends BaseEntity {
     private Board board;
 
 
+    public void delete() {
+        this.setState(INACTIVE);
+    }
 }

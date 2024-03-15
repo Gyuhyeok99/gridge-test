@@ -34,6 +34,7 @@ public class AdminConverter {
         return GetReportRes.builder()
                 .id(boardReport.getId())
                 .boardId(boardReport.getBoard().getId())
+                .reportContent(boardReport.getReportContent())
                 .reporter(boardReport.getUser().getUsername())
                 .username(boardReport.getBoard().getUser().getUsername())
                 .createAt(boardReport.getCreatedAt())

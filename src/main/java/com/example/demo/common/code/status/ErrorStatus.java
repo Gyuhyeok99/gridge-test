@@ -18,6 +18,7 @@ public enum ErrorStatus implements BaseErrorCode {
     FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON4003", "금지된 요청입니다."),
     RESPONSE_ERROR(HttpStatus.NOT_FOUND, "COMMON4004", "값을 불러오는데 실패하였습니다."),
     MUST_BE_TRUE(HttpStatus.BAD_REQUEST, "COMMON4005", "이 필드는 반드시 참이어야 합니다."),
+    INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, "COMMON4006", "날짜 형식이 올바르지 않습니다."),
 
 
     USERS_EMPTY_EMAIL( HttpStatus.BAD_REQUEST, "USER4000", "이메일을 입력해주세요."),
@@ -52,8 +53,10 @@ public enum ErrorStatus implements BaseErrorCode {
     //페이지 0이상
     INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE4000", "페이지는 0 이상이어야 합니다."),
     //사이즈는 무조건 10
-    INVALID_SIZE(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
+    INVALID_SIZE_10(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
 
+    //사이즈 음수면 안됨
+    INVALID_SIZE(HttpStatus.BAD_REQUEST, "PAGE4002", "사이즈는 0 이상이어야 합니다."),
 
     /**
      * 500 :  Database, Server 오류

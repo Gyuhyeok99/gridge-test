@@ -22,11 +22,11 @@ public class LocalDateFormValidator implements ConstraintValidator<LocalDateForm
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null || value.isEmpty()) {
-            return false;
+            return true;
         }
 
         try {
-            LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyyMMdd"));
+            LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             return true;
         } catch (DateTimeParseException e) {
             return false;

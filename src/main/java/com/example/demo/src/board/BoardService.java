@@ -156,10 +156,8 @@ public class BoardService {
         boardReportRepository.findByBoardAndUserAndState(board, user, ACTIVE)
                 .ifPresent(report -> { throw new BaseException(POST_REPORT_EXISTS);});
         BoardReport boardReport = BoardConverter.toBoardReport(postReportReq, board, user);
-        log.info("boardReportReq : {}", postReportReq.getReportContent());
         BoardReport save = boardReportRepository.save(boardReport);
-        log.info("save : {}", save.getReportContent());
-        return BoardConverter.toPostReportRes(boardReport.getId());
+        return BoardConverter.toPostReportRes(save.getId());
     }
 
     private void createdBoardImage(PostBoardReq postBoardReq, Board board) {

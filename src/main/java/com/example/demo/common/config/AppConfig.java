@@ -2,6 +2,8 @@ package com.example.demo.common.config;
 
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.utils.ApplicationAuditAware;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,4 +54,8 @@ public class AppConfig {
     return new BCryptPasswordEncoder();
   }
 
+  @Bean
+  JPAQueryFactory jpaQueryFactory(EntityManager em) {
+    return new JPAQueryFactory(em);
+  }
 }

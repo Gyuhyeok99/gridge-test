@@ -1,9 +1,6 @@
 package com.example.demo.src.user.entity;
 
 import com.example.demo.common.entity.BaseEntity;
-import com.example.demo.src.board.entity.Board;
-import com.example.demo.src.comment.entity.Comment;
-import com.example.demo.src.mapping.entity.BoardLikes;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,9 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -48,7 +43,7 @@ public class User extends BaseEntity implements UserDetails {
     private boolean isOAuth;
 
 
-    private boolean termsAgreed;
+    private Boolean termsAgreed;
 
     private LocalDate termsAgreedDate;
 
@@ -112,5 +107,11 @@ public class User extends BaseEntity implements UserDetails {
 
     public void updateState(State staste) {
         this.setState(staste);
+    }
+
+    public void updateTermsAgreedStatus() {
+        if (termsAgreedDate.plusYears(1).isBefore(LocalDate.now())) {
+            this.termsAgreed = false;
+        }
     }
 }

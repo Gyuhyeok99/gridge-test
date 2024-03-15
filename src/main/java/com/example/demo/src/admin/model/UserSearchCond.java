@@ -1,4 +1,4 @@
-package com.example.demo.src.model;
+package com.example.demo.src.admin.model;
 
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.validation.annotation.LocalDateTimeForm;
@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserSearchCondition {
+public class UserSearchCond {
 
     private String name;
     private String username;

@@ -28,15 +28,6 @@ public class BoardLikes extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void setBoard(Board board) {
-        this.board = board;
-        board.getBoardLikesList().add(this);
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-        user.getBoardLikesList().add(this);
-    }
 
 
 }

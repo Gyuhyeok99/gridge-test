@@ -1,18 +1,16 @@
-package com.example.demo.src.admin_user;
+package com.example.demo.src.admin;
 
-import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
-import com.example.demo.src.model.GetCondUserRes;
-import com.example.demo.src.model.UserSearchCondition;
+import com.example.demo.src.admin.model.BoardSearchCond;
+import com.example.demo.src.admin.model.GetCondBoardRes;
+import com.example.demo.src.admin.model.GetCondUserRes;
+import com.example.demo.src.admin.model.UserSearchCond;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +21,19 @@ import static com.example.demo.common.code.status.ErrorStatus.NOT_FIND_USER;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
-public class AdminUserService {
+public class AdminService {
 
-    private final AdminUserQueryRepository adminUserQueryRepository;
+    private final AdminQueryRepository adminQueryRepository;
     private final UserRepository userRepository;
 
-    public Slice<GetCondUserRes> getAdminUsers(UserSearchCondition userSearchCondition, int page, int size) {
+    public Page<GetCondUserRes> getAdminUsers(UserSearchCond userSearchCond, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
-        return adminUserQueryRepository.searchUser(userSearchCondition, pageable);
+        return adminQueryRepository.searchUser(userSearchCond, pageable);
+    }
+
+    public Page<GetCondBoardRes> getAdminBoards(BoardSearchCond boardSearchCond, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
+        return adminQueryRepository.searchBoard(boardSearchCond, pageable);
     }
 
     public User getUser(Long userId) {
@@ -43,4 +46,6 @@ public class AdminUserService {
         user.updateState(staste);
         return "state 변경 완료";
     }
+
+
 }

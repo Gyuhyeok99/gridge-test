@@ -31,22 +31,6 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<BoardImage> boardImageList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<BoardLikes> boardLikesList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<Comment> commentList = new ArrayList<>();
-    public void setUser(User user) {
-        this.user = user;
-        user.getBoardList().add(this);
-    }
-
 
     public void setContent(String content) {
         this.content = content;

@@ -100,17 +100,6 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<Board> boardList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<BoardLikes> boardLikesList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<Comment> commentList = new ArrayList<>();
     //setter
     public void setPassword(String password) {
         this.password = password;

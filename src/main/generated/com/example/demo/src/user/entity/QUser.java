@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -23,12 +22,6 @@ public class QUser extends EntityPathBase<User> {
     public final com.example.demo.common.entity.QBaseEntity _super = new com.example.demo.common.entity.QBaseEntity(this);
 
     public final DatePath<java.time.LocalDate> birth = createDate("birth", java.time.LocalDate.class);
-
-    public final ListPath<com.example.demo.src.mapping.entity.BoardLikes, com.example.demo.src.mapping.entity.QBoardLikes> boardLikesList = this.<com.example.demo.src.mapping.entity.BoardLikes, com.example.demo.src.mapping.entity.QBoardLikes>createList("boardLikesList", com.example.demo.src.mapping.entity.BoardLikes.class, com.example.demo.src.mapping.entity.QBoardLikes.class, PathInits.DIRECT2);
-
-    public final ListPath<com.example.demo.src.board.entity.Board, com.example.demo.src.board.entity.QBoard> boardList = this.<com.example.demo.src.board.entity.Board, com.example.demo.src.board.entity.QBoard>createList("boardList", com.example.demo.src.board.entity.Board.class, com.example.demo.src.board.entity.QBoard.class, PathInits.DIRECT2);
-
-    public final ListPath<com.example.demo.src.comment.entity.Comment, com.example.demo.src.comment.entity.QComment> commentList = this.<com.example.demo.src.comment.entity.Comment, com.example.demo.src.comment.entity.QComment>createList("commentList", com.example.demo.src.comment.entity.Comment.class, com.example.demo.src.comment.entity.QComment.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;

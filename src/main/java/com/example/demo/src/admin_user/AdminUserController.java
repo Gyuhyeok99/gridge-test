@@ -1,9 +1,10 @@
-package com.example.demo.src.admin;
+package com.example.demo.src.admin_user;
 
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.src.admin.model.GetCondUserRes;
-import com.example.demo.src.admin.model.UserSearchCondition;
+import com.example.demo.src.model.GetCondUserRes;
+import com.example.demo.src.model.UserSearchCondition;
+import com.example.demo.src.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,10 @@ import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE;
 @Tag(name = "admin controller", description = "관리자 전용 API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/admins")
-public class AdminController {
+@RequestMapping("/api/v1/admins/users")
+public class AdminUserController {
 
-    private final AdminService adminService;
+    private final AdminUserService adminUserService;
     @GetMapping
     @PreAuthorize("hasAuthority('admin:read')")
     @Operation(summary = "관리자 전용 회원 검색 API", description = "관리자 전용 회원 검색 API입니다")
@@ -36,7 +37,14 @@ public class AdminController {
         if (size < 0) {
             throw new BaseException(INVALID_SIZE);
         }
-        return BaseResponse.onSuccess(adminService.getAdminUsers(userSearchCondition, page, size));
+        return BaseResponse.onSuccess(adminUserService.getAdminUsers(userSearchCondition, page, size));
+    }
+
+    @GetMapping("/{userId}")
+    @PreAuthorize("hasAuthority('admin:read')")
+    @Operation(summary = "관리자 전용 회원 Entity 조회 API", description = "관리자 전용 회원 Entity 조회 API입니다")
+    public BaseResponse<User> getUser(@PathVariable("userId") Long userId) {
+        return BaseResponse.onSuccess(adminUserService.getUser(userId));
     }
 
 }

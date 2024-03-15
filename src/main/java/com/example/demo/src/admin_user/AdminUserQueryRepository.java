@@ -1,9 +1,9 @@
-package com.example.demo.src.admin;
+package com.example.demo.src.admin_user;
 
 import com.example.demo.common.entity.BaseEntity.State;
-import com.example.demo.src.admin.model.GetCondUserRes;
-import com.example.demo.src.admin.model.QGetCondUserRes;
-import com.example.demo.src.admin.model.UserSearchCondition;
+import com.example.demo.src.model.GetCondUserRes;
+import com.example.demo.src.model.QGetCondUserRes;
+import com.example.demo.src.model.UserSearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import static com.example.demo.src.user.entity.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
-public class AdminQueryRepository {
+public class AdminUserQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 

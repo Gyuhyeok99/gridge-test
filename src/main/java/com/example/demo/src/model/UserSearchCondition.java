@@ -1,4 +1,4 @@
-package com.example.demo.src.admin.model;
+package com.example.demo.src.model;
 
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.validation.annotation.LocalDateTimeForm;

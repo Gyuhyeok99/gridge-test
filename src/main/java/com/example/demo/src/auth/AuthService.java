@@ -58,6 +58,9 @@ public class AuthService {
                 .ifPresent(user -> {throw new BaseException(SUSPENDED_USER);});
         User user = userRepository.findByUsernameAndState(postLoginReq.getUsername(), ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        if(user.getTermsAgreed().equals(Boolean.FALSE)) {
+            throw new BaseException(EXPIRED_TERMS_AGREED);
+        }
         try{
             authenticationManager.authenticate
                     (new UsernamePasswordAuthenticationToken(postLoginReq.getUsername(), postLoginReq.getPassword()));

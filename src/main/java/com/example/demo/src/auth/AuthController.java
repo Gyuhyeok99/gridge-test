@@ -60,7 +60,7 @@ public class AuthController {
     }
     @PostMapping("/mailauthCheck")
     @Operation(summary = "휴대폰 인증 검증 API",description = "휴대폰 인증 번호를 받아 인증번호가 일치하는지 검증합니다.")
-    public BaseResponse<Boolean> AuthCheck(@RequestBody @Valid PostFindCheckReq postFindCheckReq) {
+    public BaseResponse<Boolean> authCheck(@RequestBody @Valid PostFindCheckReq postFindCheckReq) {
         return BaseResponse.onSuccess(authService.checkAuthNum(postFindCheckReq));
     }
 

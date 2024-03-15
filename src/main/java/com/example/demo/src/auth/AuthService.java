@@ -67,6 +67,7 @@ public class AuthService {
         String accessToken = jwtProvider.generateToken(user);
         String refreshToken = jwtProvider.generateRefreshToken(user);
         saveUserToken(user, refreshToken);
+        user.updateLastLoginAt();
         return AuthConverter.toPostLoginRes(user.getId(), accessToken, refreshToken);
     }
 

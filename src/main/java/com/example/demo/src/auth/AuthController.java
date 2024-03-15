@@ -10,10 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 
 @Slf4j
 @Tag(name = "auth controller", description = "인증 필요 없는 API")
@@ -70,36 +70,13 @@ public class AuthController {
         return BaseResponse.onSuccess(authService.changePassword(patchChangePasswordReq));
     }
 
-    /**
-     * 유저 소셜 가입, 로그인 인증으로 리다이렉트 해주는 url
-     * [GET] /app/users/auth/:socialLoginType/login
-     * @return void
-     */
+
     @GetMapping("/{socialLoginType}/login")
-    public void socialLoginRedirect(@PathVariable(name="socialLoginType") String SocialLoginPath) throws IOException {
-        Constant.SocialLoginType socialLoginType= Constant.SocialLoginType.valueOf(SocialLoginPath.toUpperCase());
-        //oAuthService.accessRequest(socialLoginType);
-    }
-
-
-/*
-    *//**
-     * Social Login API Server 요청에 의한 callback 을 처리
-     * @param socialLoginPath (GOOGLE, FACEBOOK, NAVER, KAKAO)
-     * @param code API Server 로부터 넘어오는 code
-     * @return SNS Login 요청 결과로 받은 Json 형태의 java 객체 (access_token, jwt_token, user_num 등)
-     *//*
-    @ResponseBody
-    @GetMapping(value = "/{socialLoginType}/login/callback")
-    public BaseResponse<GetSocialOAuthRes> socialLoginCallback(
-            @PathVariable(name = "socialLoginType") String socialLoginPath,
-            @RequestParam(name = "code") String code) throws IOException, BaseException{
-        log.info(">> 소셜 로그인 API 서버로부터 받은 code : {}", code);
+    public BaseResponse<ResponseEntity<?>> login(@PathVariable(name="socialLoginType") String socialLoginPath, @RequestParam("code") String code) {
+        log.info("인증 부여 코드 : {}", code);
         Constant.SocialLoginType socialLoginType = Constant.SocialLoginType.valueOf(socialLoginPath.toUpperCase());
-        //GetSocialOAuthRes getSocialOAuthRes = oAuthService.oAuthLoginOrJoin(socialLoginType,code);
-        return BaseResponse.onSuccess(getSocialOAuthRes);
-    }*/
-
+        return BaseResponse.onSuccess(authService.socialLogin(socialLoginType, code));
+    }
 
     @PostMapping("/refresh-token")
     @Operation(summary = "리프레시토큰 재발급 API",description = "엑세스 토큰 만료 시 리프레시 토큰을 이용해 새로운 엑세스 토큰을 발급합니다.")

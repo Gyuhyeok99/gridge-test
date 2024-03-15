@@ -1,5 +1,7 @@
 package com.example.demo.src.user.entity;
 
+import com.example.demo.common.Constant;
+import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +43,9 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(nullable = false)
     private boolean isOAuth;
+
+    @Enumerated(EnumType.STRING)
+    private SocialLoginType socialLoginType;
 
 
     private Boolean termsAgreed;

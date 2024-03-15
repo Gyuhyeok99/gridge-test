@@ -1,6 +1,8 @@
 package com.example.demo.src.auth;
 
 
+import com.example.demo.common.Constant;
+import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.src.auth.model.PostLoginRes;
 import com.example.demo.src.auth.model.PostRefreshRes;
 import com.example.demo.src.auth.model.PostUserReq;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static com.example.demo.common.Constant.SocialLoginType.*;
 import static com.example.demo.src.user.entity.Role.USER;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -29,6 +32,7 @@ public class AuthConverter {
                 .termsAgreed(postUserReq.isTermsAgreed())
                 .termsAgreedDate(LocalDate.parse(postUserReq.getTermsAgreedDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .lastLoginAt(LocalDateTime.now())
+                .socialLoginType(NONE)
                 .role(USER)
                 .build();
     }

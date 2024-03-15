@@ -2,10 +2,7 @@ package com.example.demo.src.admin;
 
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
-import com.example.demo.src.admin.model.BoardSearchCond;
-import com.example.demo.src.admin.model.GetCondBoardRes;
-import com.example.demo.src.admin.model.GetCondUserRes;
-import com.example.demo.src.admin.model.UserSearchCond;
+import com.example.demo.src.admin.model.*;
 import com.example.demo.src.board.BoardConverter;
 import com.example.demo.src.board.BoardImageRepository;
 import com.example.demo.src.board.BoardRepository;
@@ -17,6 +14,7 @@ import com.example.demo.src.comment.CommentConverter;
 import com.example.demo.src.comment.CommentRepository;
 import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.mapping.BoardLikesRepository;
+import com.example.demo.src.mapping.BoardReportRepository;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +43,7 @@ public class AdminService {
     private final BoardLikesRepository boardLikesRepository;
     private final CommentRepository commentRepository;
     private final BoardImageRepository boardImageRepository;
+    private final BoardReportRepository boardReportRepository;
 
     public Page<GetCondUserRes> getAdminUsers(UserSearchCond userSearchCond, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
@@ -54,6 +53,12 @@ public class AdminService {
     public Page<GetCondBoardRes> getAdminBoards(BoardSearchCond boardSearchCond, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         return adminQueryRepository.searchBoard(boardSearchCond, pageable);
+    }
+
+    public Page<GetReportRes> getReports(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
+        return boardReportRepository.findByStateWithFetchJoin(ACTIVE, pageable)
+                .map(AdminConverter::toGetReportRes);
     }
 
     public User getUser(Long userId) {
@@ -109,6 +114,7 @@ public class AdminService {
     private static List<GetBoardImageRes> getGetBoardImageRes(List<BoardImage> imageUrls) {
         return imageUrls.stream().map(BoardConverter::toGetBoardImageRes).toList();
     }
+
 
 
 }

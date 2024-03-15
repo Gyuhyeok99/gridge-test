@@ -3,10 +3,7 @@ package com.example.demo.src.admin;
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.src.admin.model.BoardSearchCond;
-import com.example.demo.src.admin.model.GetCondBoardRes;
-import com.example.demo.src.admin.model.GetCondUserRes;
-import com.example.demo.src.admin.model.UserSearchCond;
+import com.example.demo.src.admin.model.*;
 import com.example.demo.src.board.model.GetBoardRes;
 import com.example.demo.src.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,6 +57,18 @@ public class AdminController {
         return BaseResponse.onSuccess(adminService.getAdminBoards(boardSearchCond, page, size));
     }
 
+    @GetMapping("/reports")
+    @PreAuthorize("hasAnyAuthority('admin:read')")
+    @Operation(summary = "관리자 전용 신고 전체 조회 API", description = "관리자 전용 신고 전체 조회 API입니다")
+    public BaseResponse<Page<GetReportRes>> getReports(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        if (page < 0) {
+            throw new BaseException(INVALID_PAGE);
+        }
+        if (size < 0) {
+            throw new BaseException(INVALID_SIZE);
+        }
+        return BaseResponse.onSuccess(adminService.getReports(page, size));
+    }
 
     @GetMapping("users/{userId}")
     @PreAuthorize("hasAnyAuthority('admin:update')")
@@ -75,6 +84,8 @@ public class AdminController {
         return BaseResponse.onSuccess(adminService.getBoard(boardId));
     }
 
+
+
     @PatchMapping("/users/{userId}")
     @PreAuthorize("hasAnyAuthority('admin:update')")
     @Operation(summary = "관리자 전용 회원 정지 API", description = "관리자 전용 회원 정지 API입니다")
@@ -88,5 +99,6 @@ public class AdminController {
     public BaseResponse<String> patchBoard(@PathVariable("boardId") Long boardId) {
         return BaseResponse.onSuccess(adminService.patchBoard(boardId));
     }
+
 
 }

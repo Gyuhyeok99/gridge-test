@@ -2,8 +2,10 @@ package com.example.demo.src.admin;
 
 import com.example.demo.src.admin.model.GetCondCommentRes;
 import com.example.demo.src.admin.model.GetCondImageRes;
+import com.example.demo.src.admin.model.GetReportRes;
 import com.example.demo.src.board.entity.BoardImage;
 import com.example.demo.src.comment.entity.Comment;
+import com.example.demo.src.mapping.entity.BoardReport;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +27,16 @@ public class AdminConverter {
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .username(comment.getUser().getUsername())
+                .build();
+    }
+
+    public static GetReportRes toGetReportRes(BoardReport boardReport) {
+        return GetReportRes.builder()
+                .id(boardReport.getId())
+                .boardId(boardReport.getBoard().getId())
+                .reporter(boardReport.getUser().getUsername())
+                .username(boardReport.getBoard().getUser().getUsername())
+                .createAt(boardReport.getCreatedAt())
                 .build();
     }
 

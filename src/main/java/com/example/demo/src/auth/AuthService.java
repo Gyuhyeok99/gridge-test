@@ -23,6 +23,7 @@ import java.util.Random;
 
 import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
+import static com.example.demo.common.entity.BaseEntity.State.SUSPENDED;
 import static com.example.demo.utils.jwt.JwtProvider.HEADER_AUTHORIZATION;
 import static com.example.demo.utils.jwt.JwtProvider.TOKEN_PREFIX;
 
@@ -53,6 +54,8 @@ public class AuthService {
     }
 
     public PostLoginRes login(PostLoginReq postLoginReq) {
+        userRepository.findByUsernameAndState(postLoginReq.getUsername(), SUSPENDED)
+                .ifPresent(user -> {throw new BaseException(SUSPENDED_USER);});
         User user = userRepository.findByUsernameAndState(postLoginReq.getUsername(), ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
         try{
@@ -67,10 +70,13 @@ public class AuthService {
         String accessToken = jwtProvider.generateToken(user);
         String refreshToken = jwtProvider.generateRefreshToken(user);
         saveUserToken(user, refreshToken);
+        user.updateLastLoginAt();
         return AuthConverter.toPostLoginRes(user.getId(), accessToken, refreshToken);
     }
 
     public Boolean checkAuthNum(PostFindCheckReq postFindCheckReq) {
+        userRepository.findByUsernameAndState(postFindCheckReq.getUsername(), SUSPENDED)
+                .ifPresent(user -> {throw new BaseException(SUSPENDED_USER);});
         String storedAuthNum = redisProvider.getValueOps(postFindCheckReq.getPhoneNumber());
         if (storedAuthNum != null && storedAuthNum.equals(postFindCheckReq.getVerificationCode())) {
             log.info("휴대폰 인증 성공");

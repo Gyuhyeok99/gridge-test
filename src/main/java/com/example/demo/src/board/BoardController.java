@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.common.code.status.ErrorStatus.INVALID_PAGE;
-import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE;
+import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE_10;
 
 
 @Slf4j
@@ -40,7 +40,7 @@ public class BoardController {
             throw new BaseException(INVALID_PAGE);
         }
         if (size != 10) {
-            throw new BaseException(INVALID_SIZE);
+            throw new BaseException(INVALID_SIZE_10);
         }
         return BaseResponse.onSuccess(boardService.getBoards(page, size));
     }

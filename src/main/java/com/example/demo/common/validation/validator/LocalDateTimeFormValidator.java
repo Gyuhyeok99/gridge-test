@@ -1,21 +1,17 @@
 package com.example.demo.common.validation.validator;
 
-import com.example.demo.common.validation.annotation.LocalDateForm;
+import com.example.demo.common.validation.annotation.LocalDateTimeForm;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-@Component
-@RequiredArgsConstructor
-public class LocalDateFormValidator implements ConstraintValidator<LocalDateForm, String> {
+public class LocalDateTimeFormValidator implements ConstraintValidator<LocalDateTimeForm, String> {
 
     @Override
-    public void initialize(LocalDateForm constraintAnnotation) {
+    public void initialize(LocalDateTimeForm constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
@@ -24,9 +20,9 @@ public class LocalDateFormValidator implements ConstraintValidator<LocalDateForm
         if (value == null || value.isEmpty()) {
             return true;
         }
-
         try {
-            LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            LocalDate.parse(value, formatter);
             return true;
         } catch (DateTimeParseException e) {
             return false;

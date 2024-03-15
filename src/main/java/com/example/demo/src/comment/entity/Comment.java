@@ -33,15 +33,7 @@ public class Comment extends BaseEntity {
     private Board board;
 
 
-    public void setUser(User user) {
-        this.user = user;
-        user.getCommentList().add(this);
-    }
 
-    public void setBoard(Board board) {
-        this.board = board;
-        board.getCommentList().add(this);
-    }
 
     public void setState(State state) {
         this.state = state;

@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static com.example.demo.src.user.entity.Role.USER;
@@ -27,6 +28,7 @@ public class AuthConverter {
                 .isOAuth(postUserReq.isOAuth())
                 .termsAgreed(postUserReq.isTermsAgreed())
                 .termsAgreedDate(LocalDate.parse(postUserReq.getTermsAgreedDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .lastLoginAt(LocalDateTime.now())
                 .role(USER)
                 .build();
     }

@@ -18,6 +18,7 @@ public enum ErrorStatus implements BaseErrorCode {
     FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON4003", "금지된 요청입니다."),
     RESPONSE_ERROR(HttpStatus.NOT_FOUND, "COMMON4004", "값을 불러오는데 실패하였습니다."),
     MUST_BE_TRUE(HttpStatus.BAD_REQUEST, "COMMON4005", "이 필드는 반드시 참이어야 합니다."),
+    INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, "COMMON4006", "날짜 형식이 올바르지 않습니다."),
 
 
     USERS_EMPTY_EMAIL( HttpStatus.BAD_REQUEST, "USER4000", "이메일을 입력해주세요."),
@@ -30,6 +31,8 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_USERNAME(HttpStatus.BAD_REQUEST, "USER4007", "아이디는 소문자 영어, 숫자, '_', '.'만 포함할 수 있습니다."),
     PHONE_AUTH_FAIL(HttpStatus.BAD_REQUEST, "USER4008", "핸드폰 인증에 실패했습니다."),
     PASSWORD_NOT_MATCH_CONFIRM(HttpStatus.BAD_REQUEST, "USER4009", "새비밀번호와 재입력한 새비밀번호가 일치하지 않습니다."),
+    SUSPENDED_USER(HttpStatus.BAD_REQUEST, "USER4010", "정지당한 계정입니다"),
+
 
     NOT_FIND_BOARD(HttpStatus.NOT_FOUND, "BOARD4000", "존재하지 않는 게시글입니다."),
 
@@ -39,6 +42,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     NOT_REPORT_MY_BOARD(HttpStatus.BAD_REQUEST, "REPORT4000", "자신의 게시글은 신고할 수 없습니다."),
     POST_REPORT_EXISTS(HttpStatus.BAD_REQUEST, "REPORT4001", "이미 신고한 게시글입니다."),
+    NOT_FIND_REPORT(HttpStatus.BAD_REQUEST, "REPORT4002", "존재하지 않는 신고입니다"),
 
     POST_TEST_EXISTS_MEMO(HttpStatus.BAD_REQUEST, "MEMO4000","중복된 메모입니다."),
     INVALID_MEMO(HttpStatus.NOT_FOUND, "MEMO4001", "존재하지 않는 메모입니다."),
@@ -52,8 +56,10 @@ public enum ErrorStatus implements BaseErrorCode {
     //페이지 0이상
     INVALID_PAGE(HttpStatus.BAD_REQUEST, "PAGE4000", "페이지는 0 이상이어야 합니다."),
     //사이즈는 무조건 10
-    INVALID_SIZE(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
+    INVALID_SIZE_10(HttpStatus.BAD_REQUEST, "PAGE4001", "사이즈는 10이어야 합니다."),
 
+    //사이즈 음수면 안됨
+    INVALID_SIZE(HttpStatus.BAD_REQUEST, "PAGE4002", "사이즈는 0 이상이어야 합니다."),
 
     /**
      * 500 :  Database, Server 오류

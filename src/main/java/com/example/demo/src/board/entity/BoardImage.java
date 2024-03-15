@@ -31,10 +31,7 @@ public class BoardImage extends BaseEntity {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    public void setBoard(Board board) {
-        this.board = board;
-        board.getBoardImageList().add(this);
-    }
+
 
     public void setImageOrder(Integer imageOrder) {
         this.imageOrder = imageOrder;

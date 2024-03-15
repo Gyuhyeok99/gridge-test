@@ -23,10 +23,14 @@ public class BaseEntity {
     private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state", nullable = false, length = 10)
+    @Column(name = "state", nullable = false, length = 20)
     protected State state = State.ACTIVE;
 
     public enum State {
-        ACTIVE, INACTIVE
+        ACTIVE, INACTIVE, SUSPENDED
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }

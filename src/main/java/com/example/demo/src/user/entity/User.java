@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -46,9 +47,12 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private boolean isOAuth;
 
+
     private boolean termsAgreed;
 
     private LocalDate termsAgreedDate;
+
+    private LocalDateTime lastLoginAt;
 
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
@@ -96,22 +100,17 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<Board> boardList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<BoardLikes> boardLikesList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<Comment> commentList = new ArrayList<>();
     //setter
     public void setPassword(String password) {
         this.password = password;
     }
 
 
+    public void updateLastLoginAt() {
+        this.lastLoginAt = LocalDateTime.now();
+    }
 
+    public void updateState(State staste) {
+        this.setState(staste);
+    }
 }

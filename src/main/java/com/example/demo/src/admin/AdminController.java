@@ -7,6 +7,7 @@ import com.example.demo.src.admin.model.BoardSearchCond;
 import com.example.demo.src.admin.model.GetCondBoardRes;
 import com.example.demo.src.admin.model.GetCondUserRes;
 import com.example.demo.src.admin.model.UserSearchCond;
+import com.example.demo.src.board.model.GetBoardRes;
 import com.example.demo.src.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -59,6 +60,7 @@ public class AdminController {
         return BaseResponse.onSuccess(adminService.getAdminBoards(boardSearchCond, page, size));
     }
 
+
     @GetMapping("users/{userId}")
     @PreAuthorize("hasAnyAuthority('admin:update')")
     @Operation(summary = "관리자 전용 단일 회원 조회 API", description = "관리자 전용 단일 회원 조회 API입니다")
@@ -66,12 +68,25 @@ public class AdminController {
         return BaseResponse.onSuccess(adminService.getUser(userId));
     }
 
+    @GetMapping("/boards/{boardId}")
+    @PreAuthorize("hasAnyAuthority('admin:read')")
+    @Operation(summary = "관리자 전용 게시글 관련 단일 조회 API", description = "관리자 전용 게시글 관련 단일 조회 API입니다")
+    public BaseResponse<GetBoardRes> getBoard(@PathVariable("boardId") Long boardId) {
+        return BaseResponse.onSuccess(adminService.getBoard(boardId));
+    }
 
     @PatchMapping("/users/{userId}")
     @PreAuthorize("hasAnyAuthority('admin:update')")
     @Operation(summary = "관리자 전용 회원 정지 API", description = "관리자 전용 회원 정지 API입니다")
     public BaseResponse<String> patchUser(@PathVariable("userId") Long userId, @RequestParam("state") State state) {
         return BaseResponse.onSuccess(adminService.patchUser(userId, state));
+    }
+
+    @PatchMapping("/boards/{boardId}")
+    @PreAuthorize("hasAnyAuthority('admin:update')")
+    @Operation(summary = "관리자 전용 게시글 삭제 API", description = "관리자 전용 게시글 삭제 API입니다")
+    public BaseResponse<String> patchBoard(@PathVariable("boardId") Long boardId) {
+        return BaseResponse.onSuccess(adminService.patchBoard(boardId));
     }
 
 }

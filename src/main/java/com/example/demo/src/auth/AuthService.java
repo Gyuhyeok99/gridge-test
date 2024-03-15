@@ -1,6 +1,9 @@
 package com.example.demo.src.auth;
 
+import com.example.demo.common.Constant;
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.oauth.kakao.KakaoService;
+import com.example.demo.common.oauth.kakao.dto.KakaoUserInfo;
 import com.example.demo.src.auth.model.*;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
@@ -11,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +42,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final RedisProvider redisProvider;
     private final SmsUtil smsUtil;
+    private final KakaoService kakaoService;
     //POST
     public PostUserRes createUser(PostUserReq postUserReq) {
         //중복 체크
@@ -49,7 +54,6 @@ public class AuthService {
         String accessToken = jwtProvider.generateToken(user);
         String refreshToken = jwtProvider.generateRefreshToken(user);
         saveUserToken(savedUser, refreshToken);
-        //String refreshToken = jwtProvider.generateRefreshToken(user);
         return AuthConverter.toPostUserRes(savedUser.getId(), accessToken, refreshToken);
     }
 
@@ -119,15 +123,28 @@ public class AuthService {
         return "비밀번호 변경 완료";
     }
 
-    public PostUserRes createOAuthUser(User user) {
-        User saveUser = userRepository.save(user);
+    @Transactional
+    public ResponseEntity<?> socialLogin(Constant.SocialLoginType socialLoginType, String authorizationCode) {
+        switch (socialLoginType){ //각 소셜 로그인을 요청하면 소셜로그인 페이지로 리다이렉트 해주는 프로세스이다.
+            case KAKAO: {
+                KakaoUserInfo kakaoUserInfo = kakaoService.getUserInfo(kakaoService.getAccessToken(authorizationCode));
+                // 카카오 서비스를 통해 액세스 토큰 획득
+                // 액세스 토큰을 사용하여 카카오로부터 사용자 정보 획득
+                // 사용자 이메일을 기반으로 데이터베이스에서 사용자 조회
+                User user = userRepository.findByPhoneNumberAndState(kakaoUserInfo.getPhoneNumber(), ACTIVE)
+                        .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+                String accessToken = jwtProvider.generateToken(user);
+                String refreshToken = jwtProvider.generateRefreshToken(user);
+                revokeAllUserTokens(user);
+                saveUserToken(user, refreshToken);
+                PostSocialRes postSocialRes = new PostSocialRes(user.getId(), accessToken, refreshToken);
+                return ResponseEntity.ok(postSocialRes);
+            }
+            default:{
+                throw new BaseException(INVALID_OAUTH_TYPE);
+            }
 
-        // JWT 발급
-        String accessToken = jwtProvider.generateToken(user);
-        String refreshToken = jwtProvider.generateRefreshToken(user);
-        saveUserToken(saveUser, refreshToken);
-        return AuthConverter.toPostUserRes(saveUser.getId(), accessToken, refreshToken);
-
+        }
     }
 
     public PostRefreshRes refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -150,8 +167,6 @@ public class AuthService {
     }
 
     private void saveUserToken(User user, String refreshToken) {
-        //key는 사용자 이메일과 토큰 발급 시간으로 구성 // 추후에 발급 시간이 아닌 기기로 구분하는 거로 수정해야함
-        //redisService.setValueOps(user.getEmail() + ":" + issuedAt, refreshToken);
         log.info("user : {}", user.getUsername());
         redisProvider.setValueOps(user.getUsername(), refreshToken);
         redisProvider.expireValues(user.getUsername());
@@ -164,7 +179,6 @@ public class AuthService {
     //문자를 전송합니다.
     private void sendSmsToFindEmail(PostFindPhoneReq postFindPhoneReq) {
         String username = postFindPhoneReq.getUsername();
-        //수신번호 형태에 맞춰 "-"을 ""로 변환
         String phoneNum = postFindPhoneReq.getPhoneNumber().replace("+82", "0");
         phoneNum = phoneNum.replaceAll("-", "");
         log.info("phoneNum : {}", phoneNum);

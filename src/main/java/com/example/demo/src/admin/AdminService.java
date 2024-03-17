@@ -2,7 +2,9 @@ package com.example.demo.src.admin;
 
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.log.LogRepository;
 import com.example.demo.src.admin.model.*;
+import com.example.demo.src.admin.model.enums.DomainName;
 import com.example.demo.src.board.BoardConverter;
 import com.example.demo.src.board.BoardImageRepository;
 import com.example.demo.src.board.BoardRepository;
@@ -44,6 +46,7 @@ public class AdminService {
     private final CommentRepository commentRepository;
     private final BoardImageRepository boardImageRepository;
     private final BoardReportRepository boardReportRepository;
+    private final LogRepository logRepository;
 
     public Page<GetCondUserRes> getAdminUsers(UserSearchCond userSearchCond, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
@@ -105,6 +108,12 @@ public class AdminService {
                 .orElseThrow(() -> new BaseException(NOT_FIND_REPORT));
         boardReport.delete();
         return "신고 삭제 완료";
+    }
+
+    public Page<GetLogRes> getLogs(DomainName domainName, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
+        String domainControllerName = AdminConverter.toDomainControllerName(domainName);
+        return logRepository.findByClassNameAndState(domainControllerName, ACTIVE, pageable).map(AdminConverter::toGetLogRes);
     }
 
     private List<BoardImage> getBoardImages(Board board) {

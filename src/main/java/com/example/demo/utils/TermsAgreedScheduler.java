@@ -1,4 +1,4 @@
-package com.example.demo.src.scheduler;
+package com.example.demo.utils;
 
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;

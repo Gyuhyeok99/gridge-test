@@ -78,6 +78,7 @@ public class AuthService {
         String refreshToken = jwtProvider.generateRefreshToken(user);
         saveUserToken(user, refreshToken);
         user.updateLastLoginAt();
+        log.info("Class: AuthController Method: login" + " is called by User: " + user.getUsername());
         return AuthConverter.toPostLoginRes(user.getId(), accessToken, refreshToken);
     }
 
@@ -167,7 +168,6 @@ public class AuthService {
     }
 
     private void saveUserToken(User user, String refreshToken) {
-        log.info("user : {}", user.getUsername());
         redisProvider.setValueOps(user.getUsername(), refreshToken);
         redisProvider.expireValues(user.getUsername());
     }

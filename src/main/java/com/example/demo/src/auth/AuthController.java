@@ -28,6 +28,7 @@ public class AuthController {
     @PostMapping("/sign-up")
     @Operation(summary = "회원가입 API",description = "회원 가입 정보를 받아 회원 정보를 생성합니다.")
     public BaseResponse<PostUserRes> createUser(@Validated @RequestBody PostUserReq postUserReq) {
+        log.info("Class: AuthController Method: createUser" + " is called by User: " + postUserReq.getUsername());
         return BaseResponse.onSuccess(authService.createUser(postUserReq));
     }
 

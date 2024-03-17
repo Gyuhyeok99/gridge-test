@@ -2,6 +2,7 @@ package com.example.demo.src.comment;
 
 
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.log.Trace;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.comment.model.*;
 import com.example.demo.src.user.entity.User;
@@ -22,6 +23,7 @@ import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE_10;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/comments")
+@Trace
 public class CommentController {
     private final CommentService commentService;
 

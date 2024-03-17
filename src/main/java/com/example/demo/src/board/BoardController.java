@@ -2,6 +2,7 @@ package com.example.demo.src.board;
 
 
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.log.Trace;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.board.model.*;
 import com.example.demo.src.user.entity.User;
@@ -23,6 +24,7 @@ import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE_10;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/boards")
+@Trace
 public class BoardController {
 
     private final BoardService boardService;

@@ -2,8 +2,10 @@ package com.example.demo.src.admin;
 
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.log.Trace;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.admin.model.*;
+import com.example.demo.src.admin.model.enums.DomainName;
 import com.example.demo.src.board.model.GetBoardRes;
 import com.example.demo.src.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -104,6 +106,19 @@ public class AdminController {
     @Operation(summary = "관리자 전용 신고 삭제 API", description = "관리자 전용 신고 삭제 API입니다")
     public BaseResponse<String> patchReport(@PathVariable("reportId") Long reportId) {
         return BaseResponse.onSuccess(adminService.patchReport(reportId));
+    }
+
+    @GetMapping("/logs")
+    @PreAuthorize("hasAnyAuthority('admin:read')")
+    @Operation(summary = "관리자 전용 로그 전체 조회 API", description = "관리자 전용 로그 전체 조회 API입니다")
+    public BaseResponse<Page<GetLogRes>> getLogs(@RequestParam("domainName") DomainName domainName, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        if (page < 0) {
+            throw new BaseException(INVALID_PAGE);
+        }
+        if (size < 0) {
+            throw new BaseException(INVALID_SIZE);
+        }
+        return BaseResponse.onSuccess(adminService.getLogs(domainName, page, size));
     }
 
 

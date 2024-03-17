@@ -1,5 +1,7 @@
 package com.example.demo.common.log;
 
+import com.example.demo.common.log.entity.Log;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,7 +13,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class TraceAspect {
+
+    private final LogRepository logRepository;
 
     @Before("within(@com.example.demo.common.log.Trace *)")
     public void logBefore(JoinPoint joinPoint) {
@@ -22,10 +27,14 @@ public class TraceAspect {
             currentUserName = authentication.getName();
         }
 
-        // 클래스 이름을 가져옵니다.
         String className = joinPoint.getSignature().getDeclaringType().getSimpleName();
         String methodName = joinPoint.getSignature().getName();
-        // 클래스 이름을 로그에 포함시킵니다.
+
+        logRepository.save(Log.builder()
+                .userName(currentUserName)
+                .className(className)
+                .methodName(methodName)
+                .build());
         log.info("Class: " + className + " Method: " + methodName + " is called by User: " + currentUserName);
     }
 }

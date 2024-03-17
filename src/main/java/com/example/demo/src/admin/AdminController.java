@@ -2,6 +2,7 @@ package com.example.demo.src.admin;
 
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.log.Trace;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.admin.model.*;
 import com.example.demo.src.board.model.GetBoardRes;
@@ -24,6 +25,7 @@ import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/admins")
+@Trace
 public class AdminController {
 
     private final AdminService adminService;

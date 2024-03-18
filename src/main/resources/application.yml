@@ -1,14 +1,4 @@
 spring:
-  profiles:
-    group: # Run - Edit Configurations - Active Profiles에서 설정
-      local: common, local
-      dev: common, dev
-      prod: common, prod
----
-spring:
-  config:
-    activate:
-      on-profile: "common"
   jpa:
     properties:
       hibernate:
@@ -18,7 +8,6 @@ spring:
   sql:
     init:
       platform: mysql
-
   data:
     redis:
       port: 6379

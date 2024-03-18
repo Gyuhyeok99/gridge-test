@@ -1,7 +1,7 @@
 package com.example.demo.common.oauth.kakao;
 
 import com.example.demo.common.exceptions.BaseException;
-import com.example.demo.common.oauth.kakao.dto.KakaoUserInfo;
+import com.example.demo.common.oauth.kakao.model.GetKakaoRes;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.nimbusds.jose.shaded.gson.JsonParser;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +67,7 @@ public class KakaoService {
         }
     }
 
-    public KakaoUserInfo getUserInfo(String accessToken){
+    public GetKakaoRes getUserInfo(String accessToken){
         RestTemplate restTemplate = new RestTemplate();
         log.info("getUserInfo accessToken is {}", accessToken);
         HttpHeaders headers = new HttpHeaders();
@@ -78,17 +78,29 @@ public class KakaoService {
 
         String response = restTemplate.postForObject(KAKAO_USER_INFO_URL, requestEntity, String.class);
         JsonObject rootObject = JsonParser.parseString(response).getAsJsonObject();
-        JsonObject properties = rootObject.getAsJsonObject("properties");
         JsonObject accountObject = rootObject.getAsJsonObject("kakao_account");
 
         log.info("response is {}", response);
-        KakaoUserInfo kakaoUserInfo = KakaoUserInfo.builder()
-                .name(accountObject.get("name").getAsString())
-                .phoneNumber(accountObject.get("phoneNumber").getAsString())
-                .build();
-        log.info("kakaoUserInfo is {}", kakaoUserInfo);
-        return kakaoUserInfo;
 
+        String nickname = "";
+        String id = "";
+
+        if (accountObject.has("profile") && !accountObject.get("profile").isJsonNull()) {
+            JsonObject profileObject = accountObject.getAsJsonObject("profile");
+            if (profileObject.has("nickname") && !profileObject.get("nickname").isJsonNull()) {
+                nickname = profileObject.get("nickname").getAsString();
+            }
+        }
+
+        if (rootObject.has("id") && !rootObject.get("id").isJsonNull()) {
+            id = rootObject.get("id").getAsString(); // 직접 rootObject에서 id 값을 가져옴
+        }
+        log.info("nickname is {}", nickname);
+        log.info("id is {}", id);
+        return GetKakaoRes.builder()
+                .name(nickname)
+                .id(id)
+                .build();
     }
 
 }

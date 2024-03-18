@@ -1,5 +1,7 @@
 package com.example.demo.src.auth.model;
 
+import com.example.demo.common.Constant;
+import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.validation.annotation.*;
 import com.example.demo.src.user.entity.User;
 import jakarta.validation.constraints.NotNull;
@@ -50,6 +52,8 @@ public class PostUserReq {
     @NotNull
     @LocalDateForm
     private String termsAgreedDate;
+
+    private SocialLoginType socialLoginType;
 
 
 }

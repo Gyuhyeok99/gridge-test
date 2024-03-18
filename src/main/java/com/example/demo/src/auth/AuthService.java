@@ -3,7 +3,7 @@ package com.example.demo.src.auth;
 import com.example.demo.common.Constant;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.oauth.kakao.KakaoService;
-import com.example.demo.common.oauth.kakao.dto.KakaoUserInfo;
+import com.example.demo.common.oauth.kakao.model.GetKakaoRes;
 import com.example.demo.src.auth.model.*;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -119,27 +118,28 @@ public class AuthService {
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
         user.setPassword(passwordEncoder.encode(patchChangePasswordReq.getPassword()));
         log.info("비밀번호 변경 완료 : {}", user.getPassword());
-        // 새 비밀번호 저장인데 가독성을 위해 작성함. 작성하지 않아도 무방
         userRepository.save(user);
         return "비밀번호 변경 완료";
     }
 
     @Transactional
-    public ResponseEntity<?> socialLogin(Constant.SocialLoginType socialLoginType, String authorizationCode) {
-        switch (socialLoginType){ //각 소셜 로그인을 요청하면 소셜로그인 페이지로 리다이렉트 해주는 프로세스이다.
+    public PostSocialRes socialLogin(Constant.SocialLoginType socialLoginType, String authorizationCode) {
+        switch (socialLoginType){
             case KAKAO: {
-                KakaoUserInfo kakaoUserInfo = kakaoService.getUserInfo(kakaoService.getAccessToken(authorizationCode));
-                // 카카오 서비스를 통해 액세스 토큰 획득
-                // 액세스 토큰을 사용하여 카카오로부터 사용자 정보 획득
-                // 사용자 이메일을 기반으로 데이터베이스에서 사용자 조회
-                User user = userRepository.findByPhoneNumberAndState(kakaoUserInfo.getPhoneNumber(), ACTIVE)
+                GetKakaoRes getKakaoRes = kakaoService.getUserInfo(kakaoService.getAccessToken(authorizationCode));
+                User user = userRepository.findByUsernameAndState(getKakaoRes.getId(), ACTIVE)
                         .orElseThrow(() -> new BaseException(NOT_FIND_USER));
                 String accessToken = jwtProvider.generateToken(user);
                 String refreshToken = jwtProvider.generateRefreshToken(user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, refreshToken);
-                PostSocialRes postSocialRes = new PostSocialRes(user.getId(), accessToken, refreshToken);
-                return ResponseEntity.ok(postSocialRes);
+                return AuthConverter.toPostSocialRes(user, accessToken, refreshToken);
+            }
+            case GOOGLE: {
+                //TODO 구글 로그인
+            }
+            case NAVER: {
+                //TODO 네이버 로그인
             }
             default:{
                 throw new BaseException(INVALID_OAUTH_TYPE);
@@ -176,7 +176,6 @@ public class AuthService {
         redisProvider.deleteValueOps(user.getUsername());
     }
 
-    //문자를 전송합니다.
     private void sendSmsToFindEmail(PostFindPhoneReq postFindPhoneReq) {
         String username = postFindPhoneReq.getUsername();
         String phoneNum = postFindPhoneReq.getPhoneNumber().replace("+82", "0");

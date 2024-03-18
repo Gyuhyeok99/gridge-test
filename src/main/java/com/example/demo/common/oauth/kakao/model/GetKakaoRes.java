@@ -1,4 +1,4 @@
-package com.example.demo.common.oauth.kakao.dto;
+package com.example.demo.common.oauth.kakao.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class KakaoUserInfo {
+public class GetKakaoRes {
 
     String name;
-    String phoneNumber;
-
+    String id;
 
 }
 

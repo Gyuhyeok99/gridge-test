@@ -72,9 +72,9 @@ public class AuthController {
     }
 
 
-    @GetMapping("/{socialLoginType}/login")
-    public BaseResponse<ResponseEntity<?>> login(@PathVariable(name="socialLoginType") String socialLoginPath, @RequestParam("code") String code) {
-        log.info("인증 부여 코드 : {}", code);
+    @PostMapping("/{socialLoginType}/login")
+    @Operation(summary = "소셜 로그인 API",description = "소셜 로그인 코드를 받아 로그인합니다.")
+    public BaseResponse<PostSocialRes> login(@PathVariable(name="socialLoginType") String socialLoginPath, @RequestParam("code") String code) {
         Constant.SocialLoginType socialLoginType = Constant.SocialLoginType.valueOf(socialLoginPath.toUpperCase());
         return BaseResponse.onSuccess(authService.socialLogin(socialLoginType, code));
     }

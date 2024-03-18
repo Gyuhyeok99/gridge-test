@@ -46,7 +46,6 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private SocialLoginType socialLoginType;
 
-
     private Boolean termsAgreed;
 
     private LocalDate termsAgreedDate;

@@ -3,10 +3,8 @@ package com.example.demo.src.auth;
 
 import com.example.demo.common.Constant;
 import com.example.demo.common.Constant.SocialLoginType;
-import com.example.demo.src.auth.model.PostLoginRes;
-import com.example.demo.src.auth.model.PostRefreshRes;
-import com.example.demo.src.auth.model.PostUserReq;
-import com.example.demo.src.auth.model.PostUserRes;
+import com.example.demo.common.oauth.kakao.model.GetKakaoRes;
+import com.example.demo.src.auth.model.*;
 import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -32,7 +30,7 @@ public class AuthConverter {
                 .termsAgreed(postUserReq.isTermsAgreed())
                 .termsAgreedDate(LocalDate.parse(postUserReq.getTermsAgreedDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .lastLoginAt(LocalDateTime.now())
-                .socialLoginType(NONE)
+                .socialLoginType(postUserReq.getSocialLoginType())
                 .role(USER)
                 .build();
     }
@@ -59,5 +57,14 @@ public class AuthConverter {
         return PostRefreshRes.builder()
                 .accessToken(accessToken)
                 .build();
+    }
+
+    public static PostSocialRes toPostSocialRes(User user, String accessToken, String refreshToken){
+        return PostSocialRes.builder()
+                .id(user.getId())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+
     }
 }

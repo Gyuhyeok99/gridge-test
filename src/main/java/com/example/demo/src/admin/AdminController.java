@@ -111,7 +111,7 @@ public class AdminController {
     @GetMapping("/logs")
     @PreAuthorize("hasAnyAuthority('admin:read')")
     @Operation(summary = "관리자 전용 로그 전체 조회 API", description = "관리자 전용 로그 전체 조회 API입니다")
-    public BaseResponse<Page<GetLogRes>> getLogs(@RequestParam("domainName") DomainName domainName, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+    public BaseResponse<Page<?>> getLogs(@RequestParam("domainName") DomainName domainName, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
         if (page < 0) {
             throw new BaseException(INVALID_PAGE);
         }

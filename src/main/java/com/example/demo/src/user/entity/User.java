@@ -1,6 +1,5 @@
 package com.example.demo.src.user.entity;
 
-import com.example.demo.common.Constant;
 import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -54,9 +53,12 @@ public class User extends BaseEntity implements UserDetails {
 
     private LocalDateTime lastLoginAt;
 
+    private Boolean subscriptionAgreed = false;
+    private LocalDateTime subscriptionAgreedAt;
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     public void updateName(String name) {
         this.name = name;
@@ -118,5 +120,10 @@ public class User extends BaseEntity implements UserDetails {
         if (termsAgreedDate.plusYears(1).isBefore(LocalDate.now())) {
             this.termsAgreed = false;
         }
+    }
+
+    public void updateSubscriptionAgreed(boolean subscriptionAgreed) {
+        this.subscriptionAgreed = subscriptionAgreed;
+        this.subscriptionAgreedAt = LocalDateTime.now();
     }
 }

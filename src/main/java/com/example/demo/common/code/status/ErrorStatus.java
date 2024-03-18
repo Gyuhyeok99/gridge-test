@@ -65,6 +65,14 @@ public enum ErrorStatus implements BaseErrorCode {
     //사이즈 음수면 안됨
     INVALID_SIZE(HttpStatus.BAD_REQUEST, "PAGE4002", "사이즈는 0 이상이어야 합니다."),
 
+    //결제 정보를 찾을 수 없습니다.
+    NOT_FIND_PAYMENT(HttpStatus.NOT_FOUND, "PAYMENT4000", "결제 정보를 찾을 수 없습니다."),
+    ERROR_PAYMENT(HttpStatus.BAD_REQUEST, "PAYMENT4001", "결제에 실패하였습니다."),
+    //결제 금액이 일치하지 않습니다.
+    NOT_MATCH_PAYMENT_AMOUNT(HttpStatus.BAD_REQUEST, "PAYMENT4002", "결제 금액이 일치하지 않습니다."),
+
+    //이미 구독한 유저입니다.
+    ALEADY_SUBSCRIBED_USER(HttpStatus.BAD_REQUEST, "PAYMENT4003", "이미 구독한 유저입니다."),
 
     /**
      * 500 :  Database, Server 오류

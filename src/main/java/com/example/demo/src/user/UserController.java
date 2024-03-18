@@ -3,9 +3,11 @@ package com.example.demo.src.user;
 
 import com.example.demo.common.log.Trace;
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.src.user.entity.User;
 import com.example.demo.src.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,10 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping
+    public BaseResponse<String> getUser(@AuthenticationPrincipal User user) {
+        return BaseResponse.onSuccess(user.getUsername());
+    }
     /**
      * 회원 조회 API
      * [GET] /users

@@ -69,7 +69,7 @@ public enum ErrorStatus implements BaseErrorCode {
     NOT_FIND_PAYMENT(HttpStatus.NOT_FOUND, "PAYMENT4000", "결제 정보를 찾을 수 없습니다."),
     ERROR_PAYMENT(HttpStatus.BAD_REQUEST, "PAYMENT4001", "결제에 실패하였습니다."),
     //결제 금액이 일치하지 않습니다.
-    NOT_MATCH_PAYMENT_AMOUNT(HttpStatus.BAD_REQUEST, "PAYMENT4001", "결제 금액이 일치하지 않습니다."),
+    NOT_MATCH_PAYMENT_AMOUNT(HttpStatus.BAD_REQUEST, "PAYMENT4002", "결제 금액이 일치하지 않습니다."),
 
 
     /**

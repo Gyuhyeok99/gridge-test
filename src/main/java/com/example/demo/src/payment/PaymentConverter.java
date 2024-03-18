@@ -15,7 +15,7 @@ public class PaymentConverter {
         return Payment.builder()
                 .paymentStatus(paymentStatus)
                 .user(user)
-                .paymentUid(postPayReq.getImpUid())
+                .paymentUid(postPayReq.getMerchantUid())
                 .detail(detail)
                 .build();
     }

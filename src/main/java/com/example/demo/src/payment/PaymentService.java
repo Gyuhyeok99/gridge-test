@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import static com.example.demo.common.Constant.SUBSCRIPTION_AMOUNT;
 import static com.example.demo.common.code.status.ErrorStatus.*;
@@ -33,8 +32,8 @@ public class PaymentService {
     public PostPayRes payValidate(User user, PostPayReq postPayReq) {
         Payment payment;
         // 금액 검증 실패 시, PaymentHistory 저장
-        if(postPayReq.getAmount().compareTo(BigDecimal.valueOf(SUBSCRIPTION_AMOUNT)) != 0) {
-            payment = new Payment(PaymentStatus.FAIL, user, postPayReq.getImpUid(), "금액 불일치");
+        if(postPayReq.getAmount() != SUBSCRIPTION_AMOUNT) {
+            payment = PaymentConverter.toPayment(PaymentStatus.FAIL, user, postPayReq, "금액 불일치");
             paymentRepository.save(payment);
             throw new BaseException(NOT_MATCH_PAYMENT_AMOUNT);
         }

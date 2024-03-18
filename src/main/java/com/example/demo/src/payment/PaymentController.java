@@ -1,6 +1,5 @@
 package com.example.demo.src.payment;
 
-import com.example.demo.common.log.Trace;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.payment.entity.enums.model.PostPayReq;
 import com.example.demo.src.payment.entity.enums.model.PostPayRes;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/payments")
-@Trace
 public class PaymentController {
 
     private final PaymentService paymentService;

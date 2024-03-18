@@ -79,7 +79,7 @@ public class AuthService {
         saveUserToken(user, refreshToken);
         user.updateLastLoginAt();
         log.info("Class: AuthController Method: login" + " is called by User: " + user.getUsername());
-        return AuthConverter.toPostLoginRes(user.getId(), accessToken, refreshToken);
+        return AuthConverter.toPostLoginRes(user, accessToken, refreshToken);
     }
 
     public Boolean checkAuthNum(PostFindCheckReq postFindCheckReq) {

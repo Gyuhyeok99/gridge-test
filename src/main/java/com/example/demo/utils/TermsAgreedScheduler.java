@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
@@ -28,5 +29,12 @@ public class TermsAgreedScheduler {
             user.updateTermsAgreedStatus();
         }
         userRepository.saveAll(users);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Transactional
+    public void updateSubscriptionStatus() {
+        LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+        userRepository.updateSubscriptionStatusForExpiredSubscriptions(oneMonthAgo);
     }
 }

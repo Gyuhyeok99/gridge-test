@@ -46,9 +46,10 @@ public class AuthConverter {
     }
 
 
-    public static PostLoginRes toPostLoginRes(Long userId, String accessToken, String refreshToken){
+    public static PostLoginRes toPostLoginRes(User user, String accessToken, String refreshToken){
         return PostLoginRes.builder()
-                .id(userId)
+                .id(user.getId())
+                .subscriptionAgreed(user.getSubscriptionAgreed())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();

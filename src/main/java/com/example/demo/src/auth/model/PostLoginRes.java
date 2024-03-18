@@ -10,6 +10,7 @@ import lombok.*;
 public class PostLoginRes {
 
     private Long id;
+    private boolean subscriptionAgreed;
     private String accessToken;
     private String refreshToken;
 }

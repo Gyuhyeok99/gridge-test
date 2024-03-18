@@ -6,6 +6,7 @@ import com.example.demo.src.payment.entity.Payment;
 import com.example.demo.src.payment.entity.enums.PaymentStatus;
 import com.example.demo.src.payment.entity.enums.model.PostPayReq;
 import com.example.demo.src.payment.entity.enums.model.PostPayRes;
+import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
@@ -27,6 +28,7 @@ public class PaymentService {
 
     private final IamportClient iamportClient;
     private final PaymentRepository paymentRepository;
+    private final UserRepository userRepository;
 
     @Transactional(noRollbackFor = BaseException.class)
     public PostPayRes payValidate(User user, PostPayReq postPayReq) {
@@ -42,7 +44,10 @@ public class PaymentService {
             iamportClient.paymentByImpUid(postPayReq.getImpUid());
             // 결제 성공 시, PaymentHistory 저장
             payment = PaymentConverter.toPayment(PaymentStatus.OK, user, postPayReq, "결제 성공");
+            user.updateSubscriptionAgreed(true);
+            log.info("user.getSubscriptionAgreed() : " + user.getSubscriptionAgreed());
             paymentRepository.save(payment);
+            userRepository.save(user);
         } catch (IamportResponseException e) {
             // 결제 찾기 실패 시, PaymentHistory 저장
             payment = PaymentConverter.toPayment(PaymentStatus.FAIL, user, postPayReq, "결제 정보 없음");

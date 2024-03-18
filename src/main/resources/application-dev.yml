@@ -14,9 +14,9 @@ spring:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/demo?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&setTimezone=Asia/Seoul # 변경해주세요
-    username: root
-    password: 19991021
+    url: jdbc:mysql://${DEV_DB_URL}:3306/demo?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&setTimezone=Asia/Seoul # 변경해주세요
+    username: ${DEV_USERNAME}
+    password: ${DEV_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
   security:
     oauth2:

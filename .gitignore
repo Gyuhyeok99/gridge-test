@@ -36,7 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-application.yml
 
 logs/**
 src/main/resources/templates/payment.html

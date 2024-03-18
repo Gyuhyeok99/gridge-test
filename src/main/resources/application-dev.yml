@@ -1,0 +1,42 @@
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    generate-ddl: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&setTimezone=Asia/Seoul # 변경해주세요
+    username: root
+    password: 19991021
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            client-name: Kakao
+            provider: kakao
+            redirect-uri: ${DEV_REDIRECT}
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id

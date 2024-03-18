@@ -1,0 +1,48 @@
+spring:
+  profiles:
+    group: # Run - Edit Configurations - Active Profiles에서 설정
+      local: common, local
+      dev: common, dev
+      prod: common, prod
+---
+spring:
+  config:
+    activate:
+      on-profile: "common"
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+  application:
+    name: demo
+  sql:
+    init:
+      platform: mysql
+
+  data:
+    redis:
+      port: 6379
+      host: 127.0.0.1
+
+server:
+  port: 9000
+
+iamport:
+  api_key: ${IAM_APIKEY}
+  secret_key: ${IAM_SECRET_KEY}
+
+jwt:
+  issuer: demo@demo.com
+  secret_key: ${JWT_SECRET_KEY}
+  expiration: 86400000
+  refresh-token:
+    expiration: 604800000
+
+coolsms:
+  api:
+    key: ${SMS_API_KEY}
+    secret: ${SMS_SECRET}
+    from: ${PHONE}
+
+
+

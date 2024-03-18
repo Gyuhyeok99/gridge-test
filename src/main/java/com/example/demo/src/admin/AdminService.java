@@ -18,6 +18,7 @@ import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.mapping.BoardLikesRepository;
 import com.example.demo.src.mapping.BoardReportRepository;
 import com.example.demo.src.mapping.entity.BoardReport;
+import com.example.demo.src.payment.PaymentRepository;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,7 @@ public class AdminService {
     private final BoardImageRepository boardImageRepository;
     private final BoardReportRepository boardReportRepository;
     private final LogRepository logRepository;
+    private final PaymentRepository paymentRepository;
 
     public Page<GetCondUserRes> getAdminUsers(UserSearchCond userSearchCond, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
@@ -110,10 +112,15 @@ public class AdminService {
         return "신고 삭제 완료";
     }
 
-    public Page<GetLogRes> getLogs(DomainName domainName, Integer page, Integer size) {
+    public Page<?> getLogs(DomainName domainName, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
-        String domainControllerName = AdminConverter.toDomainControllerName(domainName);
-        return logRepository.findByClassNameAndState(domainControllerName, ACTIVE, pageable).map(AdminConverter::toGetLogRes);
+        if(domainName.equals(DomainName.PAYMENT)) {
+            return paymentRepository.findByState(ACTIVE, pageable).map(AdminConverter::toGetPaymentRes);
+        }
+        else {
+            String domainControllerName = AdminConverter.toDomainControllerName(domainName);
+            return logRepository.findByClassNameAndState(domainControllerName, ACTIVE, pageable).map(AdminConverter::toGetLogRes);
+        }
     }
 
     private List<BoardImage> getBoardImages(Board board) {

@@ -4,7 +4,8 @@ public enum DomainName {
 
     USER("UserController"),
     BOARD("BoardController"),
-    COMMENT("CommentController");
+    COMMENT("CommentController"),
+    PAYMENT("PaymentController");
     private final String description;
 
     DomainName(String description) {

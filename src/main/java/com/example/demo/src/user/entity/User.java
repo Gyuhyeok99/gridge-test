@@ -1,6 +1,5 @@
 package com.example.demo.src.user.entity;
 
-import com.example.demo.common.Constant;
 import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -57,6 +56,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     public void updateName(String name) {
         this.name = name;

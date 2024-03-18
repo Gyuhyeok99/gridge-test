@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SwaggerConfig implements WebMvcConfigurer {
     private static final String SECURITY_SCHEME_NAME = "authorization";	// 추가
 
-    @Value("${swagger.server-url}")
+    @Value("${server.url}")
     private String serverUrl;
 
     @Bean

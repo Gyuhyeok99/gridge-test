@@ -19,6 +19,14 @@ public class PaymentConverter {
                 .detail(detail)
                 .build();
     }
+    public static Payment toPayment(PaymentStatus paymentStatus, User user, String merchantUid, String detail) {
+        return Payment.builder()
+                .paymentStatus(paymentStatus)
+                .user(user)
+                .paymentUid(merchantUid)
+                .detail(detail)
+                .build();
+    }
 
     public static PostPayRes toPostPayRes(Payment payment) {
         return PostPayRes.builder()

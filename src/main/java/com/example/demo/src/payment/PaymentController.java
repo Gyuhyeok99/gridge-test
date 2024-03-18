@@ -25,4 +25,10 @@ public class PaymentController {
     public BaseResponse<PostPayRes> payValidate(@AuthenticationPrincipal User user, @RequestBody PostPayReq postPayReq) {
         return BaseResponse.onSuccess(paymentService.payValidate(user, postPayReq));
     }
+
+    @PostMapping("/cancel/{paymentUid}")
+    public BaseResponse<String> cancelPayment(@AuthenticationPrincipal User user, @PathVariable(name = "paymentUid") Long paymentUid) {
+        paymentService.cancelPayment(user, paymentUid);
+        return BaseResponse.onSuccess("결제 취소 성공");
+    }
 }

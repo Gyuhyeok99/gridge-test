@@ -38,6 +38,13 @@ public class PaymentService {
         try {
             // 결제 검증 로직 먼저 실행
             iamportClient.paymentByImpUid(postPayReq.getImpUid());
+            if(user.getSubscriptionAgreed()) {
+                iamportClient.cancelPaymentByImpUid(new CancelData(postPayReq.getImpUid(), true));
+                // 결제 취소 후, PaymentHistory에 실패 기록 저장
+                payment = PaymentConverter.toPayment(PaymentStatus.FAIL, user, postPayReq, "이미 구독한 유저");
+                paymentRepository.save(payment);
+                throw new BaseException(ALEADY_SUBSCRIBED_USER);
+            }
             // 금액 검증
             if(postPayReq.getAmount() != SUBSCRIPTION_AMOUNT) {
                 // 결제 취소 로직 추가

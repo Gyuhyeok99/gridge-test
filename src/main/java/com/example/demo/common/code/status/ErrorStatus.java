@@ -71,6 +71,8 @@ public enum ErrorStatus implements BaseErrorCode {
     //결제 금액이 일치하지 않습니다.
     NOT_MATCH_PAYMENT_AMOUNT(HttpStatus.BAD_REQUEST, "PAYMENT4002", "결제 금액이 일치하지 않습니다."),
 
+    //이미 구독한 유저입니다.
+    ALEADY_SUBSCRIBED_USER(HttpStatus.BAD_REQUEST, "PAYMENT4003", "이미 구독한 유저입니다."),
 
     /**
      * 500 :  Database, Server 오류

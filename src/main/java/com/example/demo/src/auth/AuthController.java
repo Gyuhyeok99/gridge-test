@@ -10,8 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -83,5 +82,11 @@ public class AuthController {
     @Operation(summary = "리프레시토큰 재발급 API",description = "엑세스 토큰 만료 시 리프레시 토큰을 이용해 새로운 엑세스 토큰을 발급합니다.")
     public BaseResponse<PostRefreshRes> refreshToken(HttpServletRequest request, HttpServletResponse response)  {
         return BaseResponse.onSuccess(authService.refreshToken(request, response));
+    }
+
+    @GetMapping("/health")
+    @Operation(summary = "서버 상태 확인 API",description = "서버 상태를 확인합니다.")
+    public BaseResponse<String> health() {
+        return BaseResponse.onSuccess("I'm healthy");
     }
 }

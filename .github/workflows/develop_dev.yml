@@ -52,12 +52,12 @@ jobs:
       - name: Start Redis
         run: |
           sudo service redis-server start
-          shell: bash
+        shell: bash
 
       - name: Check Redis Status
         run: |
           sudo service redis-server status
-          shell: bash
+        shell: bash
 
 
       - name: Generate deployment package

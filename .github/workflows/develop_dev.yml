@@ -43,23 +43,6 @@ jobs:
         shell: bash
 
 
-      - name: Install Redis
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y redis-server
-        shell: bash
-
-      - name: Start Redis
-        run: |
-          sudo service redis-server start
-        shell: bash
-
-      - name: Check Redis Status
-        run: |
-          sudo service redis-server status
-        shell: bash
-
-
       - name: Generate deployment package
         run: |
             mkdir -p deploy

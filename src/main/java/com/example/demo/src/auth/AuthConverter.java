@@ -1,9 +1,6 @@
 package com.example.demo.src.auth;
 
 
-import com.example.demo.common.Constant;
-import com.example.demo.common.Constant.SocialLoginType;
-import com.example.demo.common.oauth.kakao.model.GetKakaoRes;
 import com.example.demo.src.auth.model.*;
 import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
@@ -13,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.example.demo.common.Constant.SocialLoginType.*;
 import static com.example.demo.src.user.entity.Role.USER;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -48,6 +44,7 @@ public class AuthConverter {
         return PostLoginRes.builder()
                 .id(user.getId())
                 .subscriptionAgreed(user.getSubscriptionAgreed())
+                .termsAgreed(user.getTermsAgreed())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -63,6 +60,8 @@ public class AuthConverter {
         return PostSocialRes.builder()
                 .id(user.getId())
                 .accessToken(accessToken)
+                .subscriptionAgreed(user.getSubscriptionAgreed())
+                .termsAgreed(user.getTermsAgreed())
                 .refreshToken(refreshToken)
                 .build();
 

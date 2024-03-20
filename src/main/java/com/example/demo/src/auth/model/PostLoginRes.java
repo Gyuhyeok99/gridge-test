@@ -11,6 +11,7 @@ public class PostLoginRes {
 
     private Long id;
     private boolean subscriptionAgreed;
+    private boolean termsAgreed;
     private String accessToken;
     private String refreshToken;
 }

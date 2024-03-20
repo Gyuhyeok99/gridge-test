@@ -12,4 +12,6 @@ public class PostSocialRes {
     private Long id;
     private String accessToken;
     private String refreshToken;
+    private boolean subscriptionAgreed;
+    private boolean termsAgreed;
 }

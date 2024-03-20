@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.example.demo.common.Constant.CREATE_AT;
+import static com.example.demo.common.Constant.validPage;
 import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
@@ -61,9 +62,9 @@ public class AdminService {
     }
 
     @Transactional
-    public String patchUser(Long userId, State staste) {
+    public String patchUser(Long userId, State state) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        user.updateState(staste);
+        user.updateState(state);
         return "state 변경 완료";
     }
 
@@ -143,14 +144,7 @@ public class AdminService {
         return imageUrls.stream().map(BoardConverter::toGetBoardImageRes).toList();
     }
 
-    private void validPage(Integer page, Integer size) {
-        if (page < 0) {
-            throw new BaseException(INVALID_PAGE);
-        }
-        if (size < 0) {
-            throw new BaseException(INVALID_SIZE);
-        }
-    }
+
 
 
 

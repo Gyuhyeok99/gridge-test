@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.demo.common.Constant.CREATE_AT;
+import static com.example.demo.common.Constant.validPage;
 import static com.example.demo.common.code.status.ErrorStatus.NOT_FIND_COMMENT;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
@@ -29,6 +30,7 @@ public class CommentService {
     private final BoardRepository boardRepository;
 
     public Slice<GetCommentRes> getComments(Long boardId, int page, int size) {
+        validPage(page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         return commentRepository.findByBoardIdAndState(boardId, ACTIVE, pageable).map(CommentConverter::toGetCommentRes);
     }

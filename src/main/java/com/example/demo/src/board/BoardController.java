@@ -50,12 +50,6 @@ public class BoardController {
     @Parameter(name = "page", description = "page 번호")
     @Parameter(name = "size", description = "size 번호")
     public BaseResponse<Slice<GetBoardRes>> getBoards(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
-        if (page < 0) {
-            throw new BaseException(INVALID_PAGE);
-        }
-        if (size != 10) {
-            throw new BaseException(INVALID_SIZE_10);
-        }
         return BaseResponse.of(BOARDS_OK, boardService.getBoards(page, size));
     }
 

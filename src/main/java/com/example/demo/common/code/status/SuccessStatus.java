@@ -47,6 +47,12 @@ public enum SuccessStatus implements BaseCode {
     BOARD_SAVE_OK(HttpStatus.CREATED, "BOARD2010", "게시글이 저장 성공"),
     BOARD_REPORT_OK(HttpStatus.CREATED, "BOARD2011", "게시글 신고 성공"),
 
+    //CommentController
+    COMMENT_OK(HttpStatus.OK, "COMMENT2000", "게시글 댓글 조회 성공"),
+    COMMENT_EDIT_OK(HttpStatus.OK, "COMMENT2001", "댓글 수정 성공"),
+    COMMENT_DELETE_OK(HttpStatus.OK, "COMMENT2002", "댓글 삭제 성공"),
+
+    COMMENT_SAVE_OK(HttpStatus.CREATED, "COMMENT2010", "댓글 생성 성공"),
     ;
 
     private final HttpStatus httpStatus;

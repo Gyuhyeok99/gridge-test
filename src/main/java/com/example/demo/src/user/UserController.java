@@ -25,37 +25,12 @@ public class UserController {
     public BaseResponse<String> getUser(@AuthenticationPrincipal User user) {
         return BaseResponse.onSuccess(user.getUsername());
     }
-    /**
-     * 회원 조회 API
-     * [GET] /users
-     * 회원 번호 및 이메일 검색 조회 API
-     * [GET] /app/users? Email=
-     * @return BaseResponse<List<GetUserRes>>
-     */
-    //Query String
-   /* @ResponseBody
-    @GetMapping("") // (GET) 127.0.0.1:9000/app/users
-    public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String Email) {
-        if(Email == null){
-            List<GetUserRes> getUsersRes = userService.getUsers();
-            return BaseResponse.onSuccess(getUsersRes);
-        }
-        // Get Users
-        List<GetUserRes> getUsersRes = userService.getUsersByEmail(Email);
-        return BaseResponse.onSuccess(getUsersRes);
-    }*/
 
-    /**
-     * 회원 1명 조회 API
-     * [GET] /app/users/:userId
-     * @return BaseResponse<GetUserRes>
-     */
-    // Path-variable
-    @ResponseBody
-    @GetMapping("/{userId}") // (GET) 127.0.0.1:9000/app/users/:userId
-    public BaseResponse<GetUserRes> getUser(@PathVariable("userId") Long userId) {
-        GetUserRes getUserRes = userService.getUser(userId);
-        return BaseResponse.onSuccess(getUserRes);
+    //약관 재동의
+    @PatchMapping("/term")
+    public BaseResponse<String> patchTerm(@AuthenticationPrincipal User user) {
+        userService.patchTerm(user);
+        return BaseResponse.onSuccess("약관 재동의 완료");
     }
 
     /**
@@ -63,24 +38,17 @@ public class UserController {
      * [PATCH] /app/users/:userId
      * @return BaseResponse<String>
      */
-    @ResponseBody
-    @PatchMapping("/{userId}")
-    public BaseResponse<String> modifyUserName(@PathVariable("userId") Long userId, @RequestBody PatchUserReq patchUserReq){
-
-        userService.modifyUserName(userId, patchUserReq);
-        return BaseResponse.onSuccess("수정 완료!!");
+    @PatchMapping("/edit")
+    public BaseResponse<String> modifyUserName(@AuthenticationPrincipal User user, @RequestBody PatchUserReq patchUserReq){
+        userService.modifyUserName(user.getId(), patchUserReq);
+        return BaseResponse.onSuccess("정보 수정 완료");
     }
 
-    /**
-     * 유저정보삭제 API
-     * [DELETE] /app/users/:userId
-     * @return BaseResponse<String>
-     */
-    @ResponseBody
-    @DeleteMapping("/{userId}")
-    public BaseResponse<String> deleteUser(@PathVariable("userId") Long userId){
 
-        userService.deleteUser(userId);
-        return BaseResponse.onSuccess("삭제 완료!!");
+    @ResponseBody
+    @PatchMapping("/delete")
+    public BaseResponse<String> deleteUser(@AuthenticationPrincipal User user){
+        userService.deleteUser(user.getId());
+        return BaseResponse.onSuccess("삭제 완료");
     }
 }

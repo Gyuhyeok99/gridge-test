@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 
-// Service Create, Update, Delete 의 로직 처리
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -35,28 +33,18 @@ public class UserService {
         user.deleteUser();
     }
 
-    @Transactional(readOnly = true)
-    public List<GetUserRes> getUsers() {
-        return userRepository.findAllByState(ACTIVE).stream()
-                .map(GetUserRes::new)
-                .toList();
-    }
-
-
-
-    @Transactional(readOnly = true)
-    public GetUserRes getUser(Long userId) {
-        User user = userRepository.findByIdAndState(userId, ACTIVE)
-                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        return new GetUserRes(user);
-    }
-
-
     public boolean existByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
 
     public boolean existsByPhoneNumber(String phoneNumber) {
         return userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public void patchTerm(User user) {
+        if(user.getTermsAgreed().equals(Boolean.TRUE)){
+            throw new BaseException(ALREADY_AGREED_TERMS);
+        }
+        user.patchTerm();
     }
 }

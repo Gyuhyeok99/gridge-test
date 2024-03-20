@@ -2,7 +2,6 @@ package com.example.demo.src.user.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.example.demo.src.user.entity.enums.Role;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -39,7 +38,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath phoneNumber = createString("phoneNumber");
 
-    public final EnumPath<Role> role = createEnum("role", Role.class);
+    public final EnumPath<com.example.demo.src.user.entity.enums.Role> role = createEnum("role", com.example.demo.src.user.entity.enums.Role.class);
 
     public final EnumPath<com.example.demo.common.Constant.SocialLoginType> socialLoginType = createEnum("socialLoginType", com.example.demo.common.Constant.SocialLoginType.class);
 

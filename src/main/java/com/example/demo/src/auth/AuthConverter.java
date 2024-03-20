@@ -26,6 +26,7 @@ public class AuthConverter {
                 .termsAgreed(postUserReq.isTermsAgreed())
                 .termsAgreedDate(LocalDate.parse(postUserReq.getTermsAgreedDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .lastLoginAt(LocalDateTime.now())
+                .subscriptionAgreed(false)
                 .socialLoginType(postUserReq.getSocialLoginType())
                 .role(USER)
                 .build();

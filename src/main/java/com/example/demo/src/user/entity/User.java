@@ -126,4 +126,9 @@ public class User extends BaseEntity implements UserDetails {
         this.subscriptionAgreed = subscriptionAgreed;
         this.subscriptionAgreedAt = LocalDateTime.now();
     }
+
+    public void patchTerm() {
+        this.termsAgreed = true;
+        this.termsAgreedDate = LocalDate.now();
+    }
 }

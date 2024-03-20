@@ -53,6 +53,10 @@ public enum SuccessStatus implements BaseCode {
     COMMENT_DELETE_OK(HttpStatus.OK, "COMMENT2002", "댓글 삭제 성공"),
 
     COMMENT_SAVE_OK(HttpStatus.CREATED, "COMMENT2010", "댓글 생성 성공"),
+
+    //PaymentController
+    PAYMENT_VALIDATE_OK(HttpStatus.OK, "PAYMENT2000", "결제 검증 성공"),
+    PAYMENT_CANCEL_OK(HttpStatus.OK, "PAYMENT2001", "결제 취소 성공"),
     ;
 
     private final HttpStatus httpStatus;

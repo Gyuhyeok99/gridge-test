@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.demo.common.Constant.validPage;
 import static com.example.demo.common.code.status.SuccessStatus.*;
 
 @Slf4j
@@ -38,6 +39,7 @@ public class CommentController {
     @Parameter(name = "page", description = "page 번호")
     @Parameter(name = "size", description = "size 번호")
     public BaseResponse<Slice<GetCommentRes>> getComments(@PathVariable("boardId") Long boardId, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        validPage(page, size);
         return BaseResponse.of(COMMENT_OK, commentService.getComments(boardId, page, size));
     }
 

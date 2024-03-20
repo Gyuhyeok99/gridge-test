@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.demo.common.Constant.validPage;
 import static com.example.demo.common.code.status.SuccessStatus.*;
 
 @Slf4j
@@ -40,6 +41,7 @@ public class AdminController {
     public BaseResponse<Page<GetCondUserRes>> getAdminUsers(
              @Validated @ModelAttribute UserSearchCond userSearchCond,
              @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        validPage(page, size);
         return BaseResponse.of(ADMIN_USER_SEARCH_OK, adminService.getAdminUsers(userSearchCond, page, size));
     }
 
@@ -76,6 +78,7 @@ public class AdminController {
     public BaseResponse<Page<GetCondBoardRes>> getAdminBoards(
             @Validated @ModelAttribute BoardSearchCond boardSearchCond,
             @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        validPage(page, size);
         return BaseResponse.of(ADMIN_BOARD_SEARCH_OK, adminService.getAdminBoards(boardSearchCond, page, size));
     }
 
@@ -108,6 +111,7 @@ public class AdminController {
     @Parameter(name = "page", description = "page 번호")
     @Parameter(name = "size", description = "size 번호")
     public BaseResponse<Page<GetReportRes>> getReports(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        validPage(page, size);
         return BaseResponse.of(ADMIN_REPORT_OK, adminService.getReports(page, size));
     }
 
@@ -131,6 +135,7 @@ public class AdminController {
     @Parameter(name = "page", description = "page 번호")
     @Parameter(name = "size", description = "size 번호")
     public BaseResponse<Page<?>> getLogs(@RequestParam("domainName") DomainName domainName, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        validPage(page, size);
         return BaseResponse.of(ADMIN_LOG_OK, adminService.getLogs(domainName, page, size));
     }
 

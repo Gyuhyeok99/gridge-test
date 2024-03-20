@@ -19,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.demo.common.Constant.validPage;
 import static com.example.demo.common.code.status.ErrorStatus.INVALID_PAGE;
 import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE_10;
 import static com.example.demo.common.code.status.SuccessStatus.*;
@@ -50,6 +51,7 @@ public class BoardController {
     @Parameter(name = "page", description = "page 번호")
     @Parameter(name = "size", description = "size 번호")
     public BaseResponse<Slice<GetBoardRes>> getBoards(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        validPage(page, size);
         return BaseResponse.of(BOARDS_OK, boardService.getBoards(page, size));
     }
 

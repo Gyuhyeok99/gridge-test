@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.demo.common.Constant.CREATE_AT;
+import static com.example.demo.common.Constant.validPage;
 import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
@@ -53,6 +54,7 @@ public class BoardService {
 
 
     public Slice<GetBoardRes> getBoards(int page, int size) {
+        validPage(page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         Slice<Board> boards = boardRepository.findByStateWithUser(ACTIVE, pageable);
 

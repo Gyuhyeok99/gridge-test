@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.example.demo.common.Constant.CREATE_AT;
+import static com.example.demo.common.Constant.validPage;
 import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
@@ -51,6 +52,7 @@ public class AdminService {
     private final PaymentRepository paymentRepository;
 
     public Page<GetCondUserRes> getAdminUsers(UserSearchCond userSearchCond, int page, int size) {
+        validPage(page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         return adminQueryRepository.searchUser(userSearchCond, pageable);
     }
@@ -60,13 +62,14 @@ public class AdminService {
     }
 
     @Transactional
-    public String patchUser(Long userId, State staste) {
+    public String patchUser(Long userId, State state) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        user.updateState(staste);
+        user.updateState(state);
         return "state 변경 완료";
     }
 
     public Page<GetCondBoardRes> getAdminBoards(BoardSearchCond boardSearchCond, Integer page, Integer size) {
+        validPage(page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         return adminQueryRepository.searchBoard(boardSearchCond, pageable);
     }
@@ -99,6 +102,7 @@ public class AdminService {
     }
 
     public Page<GetReportRes> getReports(Integer page, Integer size) {
+        validPage(page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         return boardReportRepository.findByStateWithFetchJoin(ACTIVE, pageable)
                 .map(AdminConverter::toGetReportRes);
@@ -113,6 +117,7 @@ public class AdminService {
     }
 
     public Page<?> getLogs(DomainName domainName, Integer page, Integer size) {
+        validPage(page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, CREATE_AT));
         if(domainName.equals(DomainName.PAYMENT)) {
             return paymentRepository.findByState(ACTIVE, pageable).map(AdminConverter::toGetPaymentRes);
@@ -122,6 +127,8 @@ public class AdminService {
             return logRepository.findByClassNameAndState(domainControllerName, ACTIVE, pageable).map(AdminConverter::toGetLogRes);
         }
     }
+
+
 
     private List<BoardImage> getBoardImages(Board board) {
         return boardImageRepository.findByBoardIdAndState(board.getId(), ACTIVE).stream().toList();
@@ -136,6 +143,8 @@ public class AdminService {
     private static List<GetBoardImageRes> getGetBoardImageRes(List<BoardImage> imageUrls) {
         return imageUrls.stream().map(BoardConverter::toGetBoardImageRes).toList();
     }
+
+
 
 
 

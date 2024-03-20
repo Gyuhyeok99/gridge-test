@@ -2,8 +2,8 @@ package com.example.demo.src.payment;
 
 import com.example.demo.src.payment.entity.Payment;
 import com.example.demo.src.payment.entity.enums.PaymentStatus;
-import com.example.demo.src.payment.entity.enums.model.PostPayReq;
-import com.example.demo.src.payment.entity.enums.model.PostPayRes;
+import com.example.demo.src.payment.model.PostPayReq;
+import com.example.demo.src.payment.model.PostPayRes;
 import com.example.demo.src.user.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -2,6 +2,7 @@ package com.example.demo.src.user.entity;
 
 import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.entity.BaseEntity;
+import com.example.demo.src.user.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,7 +1,6 @@
 package com.example.demo.src.board;
 
 
-import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.log.Trace;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.board.model.*;
@@ -20,8 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.common.Constant.validPage;
-import static com.example.demo.common.code.status.ErrorStatus.INVALID_PAGE;
-import static com.example.demo.common.code.status.ErrorStatus.INVALID_SIZE_10;
 import static com.example.demo.common.code.status.SuccessStatus.*;
 
 
@@ -76,7 +73,6 @@ public class BoardController {
     }
 
     @PostMapping("/{boardId}/likes")
-    @Operation(summary = "게시글 좋아요 API",description = "게시글 번호를 받아 게시글을 좋아요합니다. 이미 좋아요한 경우 취소됩니다.")
     @ApiResponse(responseCode = "BOARD2003",description = "좋아요 토글 기능 성공")
     @ApiResponse(responseCode = "BOARD4000", description = "존재하지 않는 게시글입니다.",content = @Content(schema = @Schema(implementation = BaseResponse.class)))
     @Parameter(name = "boardId", description = "boardId 번호")

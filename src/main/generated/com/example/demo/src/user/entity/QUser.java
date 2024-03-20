@@ -2,6 +2,7 @@ package com.example.demo.src.user.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.example.demo.src.user.entity.enums.Role;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;

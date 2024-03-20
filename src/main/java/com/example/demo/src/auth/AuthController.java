@@ -4,12 +4,9 @@ import com.example.demo.common.Constant;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.auth.model.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -63,13 +60,6 @@ public class AuthController {
 
     @ResponseBody
     @PostMapping("/login")
-    @Operation(summary = "로그인 API",description = "유저아이디와 비밀번호를 입력받아 일치하면 토큰을 반환합니다. ")
-    @ApiResponse(responseCode = "USER2002",description = "로그인 성공")
-    @ApiResponse(responseCode = "USER4003", description = "존재하지 않는 아이디거나 비밀번호가 틀렸습니다.",content = @Content(schema = @Schema(implementation = BaseResponse.class)))
-    @ApiResponse(responseCode = "USER4004", description = "일치하는 유저가 없습니다.",content = @Content(schema = @Schema(implementation = BaseResponse.class)))
-    @ApiResponse(responseCode = "USER4010", description = "정지당한 계정입니다.",content = @Content(schema = @Schema(implementation = BaseResponse.class)))
-    @ApiResponse(responseCode = "USER4011", description = "약관이 만료되었습니다.",content = @Content(schema = @Schema(implementation = BaseResponse.class)))
-    @ApiResponse(responseCode = "COMMON4000", description = "잘못된 요청입니다.",content = @Content(schema = @Schema(implementation = BaseResponse.class)))
     public BaseResponse<PostLoginRes> login(@Validated @RequestBody PostLoginReq postLoginReq){
         return BaseResponse.of(LOGIN_OK, authService.login(postLoginReq));
     }

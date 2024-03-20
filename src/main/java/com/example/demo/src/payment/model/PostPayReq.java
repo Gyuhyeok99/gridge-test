@@ -1,4 +1,4 @@
-package com.example.demo.src.payment.entity.enums.model;
+package com.example.demo.src.payment.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

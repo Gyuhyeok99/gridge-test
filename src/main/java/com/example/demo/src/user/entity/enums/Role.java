@@ -1,4 +1,4 @@
-package com.example.demo.src.user.entity;
+package com.example.demo.src.user.entity.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.example.demo.src.user.entity.Permission.*;
+import static com.example.demo.src.user.entity.enums.Permission.*;
 
 
 @RequiredArgsConstructor

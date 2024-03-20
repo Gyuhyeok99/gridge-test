@@ -1,4 +1,4 @@
-package com.example.demo.src.payment.entity.enums.model;
+package com.example.demo.src.payment.model;
 
 import lombok.*;
 

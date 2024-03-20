@@ -1,8 +1,8 @@
 package com.example.demo.src.payment;
 
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.src.payment.entity.enums.model.PostPayReq;
-import com.example.demo.src.payment.entity.enums.model.PostPayRes;
+import com.example.demo.src.payment.model.PostPayReq;
+import com.example.demo.src.payment.model.PostPayRes;
 import com.example.demo.src.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

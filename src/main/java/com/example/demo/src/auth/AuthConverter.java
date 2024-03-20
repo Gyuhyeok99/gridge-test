@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.example.demo.src.user.entity.Role.USER;
+import static com.example.demo.src.user.entity.enums.Role.USER;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthConverter {

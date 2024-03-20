@@ -31,8 +31,8 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_USERNAME(HttpStatus.BAD_REQUEST, "USER4007", "아이디는 소문자 영어, 숫자, '_', '.'만 포함할 수 있습니다."),
     PHONE_AUTH_FAIL(HttpStatus.BAD_REQUEST, "USER4008", "핸드폰 인증에 실패했습니다."),
     PASSWORD_NOT_MATCH_CONFIRM(HttpStatus.BAD_REQUEST, "USER4009", "새비밀번호와 재입력한 새비밀번호가 일치하지 않습니다."),
-    SUSPENDED_USER(HttpStatus.BAD_REQUEST, "USER4010", "정지당한 계정입니다"),
-    EXPIRED_TERMS_AGREED(HttpStatus.BAD_REQUEST, "USER4011", "약관이 만료되었습니다"),
+    SUSPENDED_USER(HttpStatus.BAD_REQUEST, "USER4010", "정지당한 계정입니다."),
+    EXPIRED_TERMS_AGREED(HttpStatus.BAD_REQUEST, "USER4011", "약관이 만료되었습니다."),
 
 
     NOT_FIND_BOARD(HttpStatus.NOT_FOUND, "BOARD4000", "존재하지 않는 게시글입니다."),

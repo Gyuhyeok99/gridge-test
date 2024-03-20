@@ -11,8 +11,8 @@
 |:-:|:-:|
 |통합 개발 환경|IntelliJ|
 |Spring 버전|3.2.3|
-|데이터베이스|AWS RDS(MySQL), Redis|
-|배포|AWS Elastic beanstalk, ElastiCache(redis)|
+|데이터베이스|AWS RDS(MySQL), ElastiCache(Redis)|
+|배포|AWS Elastic beanstalk, EC2)|
 |Project 빌드 관리 도구|Gradle|
 |Java version|java 17|
 |패키지 구조|도메인 패키지 구조|

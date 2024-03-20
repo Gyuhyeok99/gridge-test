@@ -1,5 +1,6 @@
 package com.example.demo.src.auth.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -8,5 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class PostRefreshRes {
+    @NotNull
     private String accessToken;
 }

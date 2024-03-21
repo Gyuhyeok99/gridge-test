@@ -73,6 +73,7 @@ public class BoardController {
     }
 
     @PostMapping("/{boardId}/likes")
+    @Operation(summary = "게시글 좋아요 API",description = "게시글 번호를 받아 게시글을 좋아요합니다. 이미 좋아요한 경우 취소됩니다.")
     @ApiResponse(responseCode = "BOARD2003",description = "좋아요 토글 기능 성공")
     @ApiResponse(responseCode = "BOARD4000", description = "존재하지 않는 게시글입니다.",content = @Content(schema = @Schema(implementation = BaseResponse.class)))
     @Parameter(name = "boardId", description = "boardId 번호")

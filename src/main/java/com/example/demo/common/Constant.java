@@ -15,7 +15,7 @@ public class Constant {
 
     public static final String CREATE_AT = "createdAt";
     //구독 금액
-    public static final int SUBSCRIPTION_AMOUNT = 100;
+    public static final int SUBSCRIPTION_AMOUNT = 9900;
 
     public static void validPage(Integer page, Integer size) {
         if (page < 0) {

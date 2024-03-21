@@ -17,12 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 public class PatchBoardReq {
 
-    @Schema(description = "게시글 내용", example = "내용~~🙄")
+    @Schema(description = "게시글 내용 수정", example = "내용 수정 ~~🙄")
     @NotNull
     @Size(max = 2200)
     private String content;
 
-    @Schema(description = "이미지 url", example = "https://~~")
     @MaxImageSize
     private List<PatchBoardImageReq> boardImageReqs;
 }

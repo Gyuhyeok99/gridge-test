@@ -1,11 +1,13 @@
 package com.example.demo.utils.jwt;
 
+import com.example.demo.common.exceptions.BaseException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.example.demo.common.code.status.ErrorStatus.INVALID_JWT;
+
 @Service
+@Slf4j
 public class JwtProvider {
   public final static String HEADER_AUTHORIZATION = "Authorization";
   public final static String TOKEN_PREFIX = "Bearer ";
@@ -32,7 +37,12 @@ public class JwtProvider {
 
   //JWT 토큰에서 subject를 추출하여 사용자 이름을 반환
   public String extractUsername(String token) {
-    return extractClaim(token, Claims::getSubject);
+    try {
+      return extractClaim(token, Claims::getSubject);
+    } catch (io.jsonwebtoken.ExpiredJwtException | io.jsonwebtoken.MalformedJwtException | io.jsonwebtoken.security.SecurityException e) {
+      log.error("JWT 토큰이 유효하지 않습니다.");
+      throw new BaseException(INVALID_JWT);
+    }
   }
 
   //토큰에서 특정 클레임을 추출
@@ -75,8 +85,13 @@ public class JwtProvider {
 
   //토큰이 유효한지 확인
   public boolean isTokenValid(String token, UserDetails userDetails) {
-    final String username = extractUsername(token);
-    return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    try {
+      final String username = extractUsername(token);
+      return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    } catch (io.jsonwebtoken.ExpiredJwtException | io.jsonwebtoken.MalformedJwtException | io.jsonwebtoken.security.SecurityException e) {
+      log.error("JWT 토큰이 유효하지 않습니다.");
+      throw new BaseException(INVALID_JWT);
+    }
   }
 
   //토큰이 만료되었는지 확인

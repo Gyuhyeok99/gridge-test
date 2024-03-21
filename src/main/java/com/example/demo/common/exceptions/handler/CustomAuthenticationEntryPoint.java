@@ -5,6 +5,7 @@ import com.example.demo.common.code.status.ErrorStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @Component
+@Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
@@ -25,7 +27,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setStatus(ErrorStatus.UNAUTHORIZED.getHttpStatus().value());
 
         ErrorReasonDTO errorReasonDTO = ErrorStatus.UNAUTHORIZED.getReasonHttpStatus();
-
         try (OutputStream os = response.getOutputStream()) {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writeValue(os, errorReasonDTO);

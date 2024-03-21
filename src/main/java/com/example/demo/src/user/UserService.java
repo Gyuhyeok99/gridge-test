@@ -9,13 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 import static com.example.demo.common.code.status.ErrorStatus.*;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 
-// Service Create, Update, Delete 의 로직 처리
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -23,7 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void modifyUserName(Long userId, PatchUserReq patchUserReq) {
+    public void modifyName(Long userId, PatchUserReq patchUserReq) {
         User user = userRepository.findByIdAndState(userId, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
         user.updateName(patchUserReq.getName());
@@ -35,38 +31,18 @@ public class UserService {
         user.deleteUser();
     }
 
-    @Transactional(readOnly = true)
-    public List<GetUserRes> getUsers() {
-        return userRepository.findAllByState(ACTIVE).stream()
-                .map(GetUserRes::new)
-                .toList();
+    public boolean existByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
-    @Transactional(readOnly = true)
-    public List<GetUserRes> getUsersByEmail(String email) {
-        return userRepository.findAllByEmailAndState(email, ACTIVE).stream()
-                .map(GetUserRes::new)
-                .toList();
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
-
-    @Transactional(readOnly = true)
-    public GetUserRes getUser(Long userId) {
-        User user = userRepository.findByIdAndState(userId, ACTIVE)
-                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        return new GetUserRes(user);
-    }
-
-    @Transactional(readOnly = true)
-    public boolean checkUserByEmail(String email) {
-        Optional<User> result = userRepository.findByEmailAndState(email, ACTIVE);
-        if(result.isPresent()) return true;
-        return false;
-    }
-
-
-    public GetUserRes getUserByEmail(String email) {
-        User user = userRepository.findByEmailAndState(email, ACTIVE).orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        return new GetUserRes(user);
+    public void patchTerm(User user) {
+        if(user.getTermsAgreed().equals(Boolean.TRUE)){
+            throw new BaseException(ALREADY_AGREED_TERMS);
+        }
+        user.patchTerm();
     }
 }

@@ -2,8 +2,8 @@
 name: "✨Feat"
 about: feat
 title: "[FEAT]"
-labels: ":sparkles: feature"
-assignees: Gyuhyeok99
+labels: "✨feature"
+assignees: ''
 
 ---
 

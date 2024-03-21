@@ -16,9 +16,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.example.demo.src.user.entity.Permission.*;
-import static com.example.demo.src.user.entity.Role.ADMIN;
-import static com.example.demo.src.user.entity.Role.MANAGER;
+import static com.example.demo.src.user.entity.enums.Permission.*;
+import static com.example.demo.src.user.entity.enums.Role.ADMIN;
+import static com.example.demo.src.user.entity.enums.Role.MANAGER;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -41,8 +41,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/webjars/**",
             "/swagger-ui.html",
-            "/h2-console/**"
-            ,"/error/**"
+            "/error/**"
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;

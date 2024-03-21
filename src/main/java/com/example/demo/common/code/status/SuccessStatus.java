@@ -57,6 +57,12 @@ public enum SuccessStatus implements BaseCode {
     //PaymentController
     PAYMENT_VALIDATE_OK(HttpStatus.OK, "PAYMENT2000", "결제 검증 성공"),
     PAYMENT_CANCEL_OK(HttpStatus.OK, "PAYMENT2001", "결제 취소 성공"),
+
+    //UserController
+    USER_NAME_OK(HttpStatus.OK, "USER2000", "유저 이름 조회 성공"),
+    TERM_OK(HttpStatus.OK, "USER2001", "약관 재동의 성공"),
+    USER_EDIT_OK(HttpStatus.OK, "USER2002", "이름 수정 성공"),
+    USER_DELETE_OK(HttpStatus.OK, "USER2003", "유저 삭제 성공"),
     ;
 
     private final HttpStatus httpStatus;

@@ -6,6 +6,8 @@
 아이디 : gyuhyeok
 
 비밀번호 : string
+
+카카오 로그인 url : kauth.kakao.com/oauth/authorize?client_id=583834b651139ee57ad540e44d8232dc&redirect_uri=https://dev.gridgetest.shop/api/v1/auth/kakao/callback&response_type=code 호출해서 로그인 하면 code 받을 수 있음
 ## 🛠️ 개발 환경
 |||
 |:-:|:-:|

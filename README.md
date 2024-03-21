@@ -1,13 +1,6 @@
 ## gridge-test
 그릿지 테스트 웹 챌린지 - 혁규
 
-관리자 전용 계정
-
-아이디 : gyuhyeok
-
-비밀번호 : string
-
-카카오 로그인 url : kauth.kakao.com/oauth/authorize?client_id=583834b651139ee57ad540e44d8232dc&redirect_uri=https://dev.gridgetest.shop/api/v1/auth/kakao/callback&response_type=code 호출해서 로그인 하면 code 받을 수 있음
 ## 🛠️ 개발 환경
 |||
 |:-:|:-:|
@@ -204,14 +197,33 @@ build.gradle // gradle 빌드시에 필요한 dependency 설정하는 곳
 
 ```
 ## 환경 설정 내역
-- local 실행 시 로컬 디비 접속 포트번호 9000
-- dev 실행 시 dev.gridgetest.shop로 접속(배포 주소 : https://dev.gridgetest.shop/)
+- Local 실행 시
+  - 실행 방법: 프로젝트를 로컬 환경에서 실행할 때는 환경 변수 또는 설정 파일을 통해 local 모드로 설정
+  - 서버 접속 주소: localhost:9000 에서 서버 실행
+  - 데이터베이스 접속: 로컬에 설치된 MySQL 데이터베이스에 접속, 로컬 데이터베이스의 접속 정보(호스트, 포트, 사용자 이름, 비밀번호 등)는 개발 환경에 맞게 설정.
+  - 캐시 서버 접속: 로컬에서 실행 중인 Redis 인스턴스에 접속, 로컬 Redis 서버의 접속 정보를 환경에 맞게 설정.
+
+- Dev 실행 시
+  - 실행 방법: 개발 환경에서는 환경 변수 또는 설정 파일을 dev 모드로 설정
+  - 서버 접속 주소: 프로젝트는 https://dev.gridgetest.shop/ 주소를 통해 접근
+  - 데이터베이스 접속: AWS RDS(MySQL) 인스턴스에 접속, 개발 환경에 맞는 RDS 인스턴스의 접속 정보(엔드포인트, 포트, 사용자 이름, 비밀번호 등)를 설정 파일에 명시해야 함.
+  - 캐시 서버 접속: AWS ElastiCache(Redis) 인스턴스에 접속, 개발 환경에 맞는 ElastiCache 인스턴스의 접속 정보(엔드포인트, 포트 등)를 설정 파일에 명시해야 함.
+
+- Prod는 비용문제로 하지 않았음
 
 ## 🌱 Branch
 -  main : 최종
 -  develop : 개발
 -  feat : 기능 개발
 -  refactor : 기능 수정
+
+## 관리자 전용 계정
+
+- 아이디 : gyuhyeok
+
+- 비밀번호 : string
+
+- 카카오 로그인 url : kauth.kakao.com/oauth/authorize?client_id=583834b651139ee57ad540e44d8232dc&redirect_uri=https://dev.gridgetest.shop/api/v1/auth/kakao/callback&response_type=code 호출해서 로그인 하면 code 받을 수 있음
 
 ## ✨License
 - 본 템플릿의 소유권은 소프트스퀘어드에 있습니다. 본 자료에 대한 상업적 이용 및 무단 복제, 배포 및 변경을 원칙적으로 금지하며 이를 위반할 때에는 형사처벌을 받을 수 있습니다.# Gridge-Test

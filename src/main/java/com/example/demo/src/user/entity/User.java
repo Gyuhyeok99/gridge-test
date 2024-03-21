@@ -54,7 +54,7 @@ public class User extends BaseEntity implements UserDetails {
     private LocalDateTime lastLoginAt;
 
     private Boolean subscriptionAgreed = false;
-    private LocalDateTime subscriptionAgreedAt = LocalDateTime.now();
+    private LocalDateTime subscriptionAgreedAt;
     @Column(length = 10)
     @Enumerated(EnumType.STRING)
     private Role role;

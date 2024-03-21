@@ -25,7 +25,7 @@ public class PostBoardReq {
     @Size(max = 2200)
     private String content;
 
-    @Schema(description = "이미지 url", example = "https://~~")
+
     @MaxImageSize
     private List<PostBoardImageReq> boardImageReqs;
 
